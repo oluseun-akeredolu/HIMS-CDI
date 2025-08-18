@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hims-cdi"
+version = "0.1.0"
+authors = [
+  { name="Oluseun Akeredolu", email="example@email.com" },
+]
+description = "Reference implementation of HIMS–CDI scoring and evaluation."
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = [
+  "numpy",
+  "pandas",
+  "scikit-learn",
+]
+
+[project.scripts]
+hims-cdi = "hims_cdi.hims_cdi_eval:cli"

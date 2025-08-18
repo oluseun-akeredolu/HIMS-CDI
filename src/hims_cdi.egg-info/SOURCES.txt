@@ -1,0 +1,12 @@
+LICENSE
+README.md
+pyproject.toml
+src/hims_cdi/__init__.py
+src/hims_cdi/hims_cdi_eval.py
+src/hims_cdi.egg-info/PKG-INFO
+src/hims_cdi.egg-info/SOURCES.txt
+src/hims_cdi.egg-info/dependency_links.txt
+src/hims_cdi.egg-info/entry_points.txt
+src/hims_cdi.egg-info/requires.txt
+src/hims_cdi.egg-info/top_level.txt
+tests/test_basic.py

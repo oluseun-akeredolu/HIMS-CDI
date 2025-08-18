@@ -1,0 +1,2 @@
+[console_scripts]
+hims-cdi = hims_cdi.hims_cdi_eval:cli

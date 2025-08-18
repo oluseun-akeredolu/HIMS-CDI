@@ -1,0 +1,45 @@
+{
+  "cdi_ci": {
+    "mean": 0.5027906499435502,
+    "ci_low": 0.4758734821229544,
+    "ci_high": 0.5287725298236966
+  },
+  "ablations": {
+    "default": {
+      "desc": "Features: domain_means + CDI",
+      "mlr": {
+        "f1": 0.6610934744268079,
+        "auc": 0.8521164021164023,
+        "auprc": 0.8287896825396824,
+        "kappa": 0.5173922627867735
+      }
+    },
+    "no_cdi": {
+      "desc": "Features: domain_means",
+      "mlr": {
+        "f1": 0.624673721340388,
+        "auc": 0.843915343915344,
+        "auprc": 0.8218672839506173,
+        "kappa": 0.4706511782932747
+      }
+    },
+    "equal_weights": {
+      "desc": "Features: domain_means + CDI | equal weights",
+      "mlr": {
+        "f1": 0.6610934744268079,
+        "auc": 0.8521164021164023,
+        "auprc": 0.8287896825396824,
+        "kappa": 0.5173922627867735
+      }
+    },
+    "drop_regulatory": {
+      "desc": "Features: domain_means + CDI",
+      "mlr": {
+        "f1": 0.6610934744268079,
+        "auc": 0.8521164021164023,
+        "auprc": 0.8287896825396824,
+        "kappa": 0.5173922627867735
+      }
+    }
+  }
+}

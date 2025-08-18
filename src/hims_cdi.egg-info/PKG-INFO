@@ -1,0 +1,42 @@
+Metadata-Version: 2.4
+Name: hims-cdi
+Version: 0.1.0
+Summary: Reference implementation of HIMS–CDI scoring and evaluation.
+Author-email: Oluseun Akeredolu <example@email.com>
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: numpy
+Requires-Dist: pandas
+Requires-Dist: scikit-learn
+Dynamic: license-file
+
+# HIMS–CDI
+
+Reference implementation of the HIMS–CDI scoring and evaluation framework.
+
+## Features
+- CDI computation with bootstrapped CIs
+- Governance mapping and sensitivity analysis
+- Multinomial Logistic Regression for threat prioritisation
+- Baselines and ablation toggles
+- Latency benchmarking
+- Packaged for pip install
+
+## Install
+```bash
+pip install .
+# or from GitHub
+pip install git+https://github.com/<your-org>/hims-cdi.git
+```
+
+## Usage
+```bash
+hims-cdi --data synthetic_hims_cdi_dataset.csv --output results.json
+```
+
+## Citation
+Please cite the associated paper if you use this package.
+
+## License
+MIT
