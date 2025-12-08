@@ -1,0 +1,70 @@
+exclusion_id,authors,year,title,primary_reason,screening_stage,notes
+E001,"Argaw, J. et al.",2024,Vulnerability to Cyberattacks and Sociotechnical Solutions for Health Care Systems: Systematic Review,Non-empirical,Full-Text,Systematic review; https://doi.org/10.2196/46904
+E002,"Offner, K.L. et al.",2020,Towards understanding cybersecurity capability in Australian healthcare organisations: a systematic review,Non-empirical,Full-Text,https://doi.org/10.1080/02684527.2020.1752459
+E003,"Wasserman, L., Wasserman, Y.",2022,Hospital cybersecurity risks and gaps: review,Non-empirical,Full-Text,https://doi.org/10.3389/fdgth.2022.862221
+E004,"Nifakos, S. et al.",2021,Influence of human factors on cyber security within healthcare organisations,Non-empirical,Full-Text,https://doi.org/10.3390/s21155119
+E005,"Javaid, M. et al.",2023,Towards Insighting Cybersecurity for Healthcare Domains: A Comprehensive Review,Non-empirical,Full-Text,https://doi.org/10.1016/j.csa.2023.100016
+E006,"Shammar, E.A., Zahary, A.T.",2024,Threat to Trust: A Systematic Review on IoMT Security,Non-empirical,Full-Text,https://doi.org/10.1016/j.ijmedinf.2024.105415
+E007,"Aloraini, A. et al.",2024,Immunity-Inspired Cybersecurity Models for IoMT,Non-empirical,Full-Text,https://doi.org/10.3390/confmat11200073
+E008,"Alharbi, A. et al.",2024,Malware Detection and Classification in IoT Devices,Non-empirical,Full-Text,https://doi.org/10.3390/app15147747
+E009,HIMSS,2023,2023 HIMSS Healthcare Cybersecurity Survey,Non-empirical,Full-Text,https://www.himss.org/resources/himss-healthcare-cybersecurity-survey
+E010,H-ISAC & Booz Allen Hamilton,2024,Healthcare Cyber Threat Landscape Report,Non-empirical,Full-Text,https://health-isac.org/reports/
+E011,Microsoft Threat Intelligence,2024,US Healthcare: Strengthening Against Ransomware,Non-empirical,Full-Text,https://www.microsoft.com/en-us/security
+E012,Cylera,2024,Healthcare Cybersecurity Year in Review,Non-empirical,Full-Text,https://cylera.com/blog/2024-healthcare-cybersecurity-year-in-review/
+E013,Infoblox,2024,2024 Healthcare Cyber Trend Research Report,Non-empirical,Full-Text,https://blogs.infoblox.com/security
+E014,Varonis,2024,Healthcare Cybersecurity Statistics,Non-empirical,Full-Text,https://www.varonis.com/blog/healthcare-cybersecurity-statistics
+E015,NIST,2024,NIST SP 800-66r2,Non-empirical,Full-Text,https://doi.org/10.6028/NIST.SP.800-66r2
+E016,Joint Task Force,2020,NIST SP 800-53r5,Non-empirical,Full-Text,https://doi.org/10.6028/NIST.SP.800-53r5
+E017,"Divya, S.B., Mary, S.P.",2024,Deep Learning and ML for intrusion detection,Used non-hybrid CTI fusion,Full-Text,No multimodal CTI
+E018,"Areghan, E., Ndibe, O.S.",2024,XAI for Autonomous Threat Detection,Used non-hybrid CTI fusion,Full-Text,Single-modality XAI
+E019,"Almolhis, N. et al.",2020,Security issues in IoT-cloud,Used non-hybrid CTI fusion,Full-Text,https://doi.org/10.1109/CSPA48992.2020.9068693
+E020,"Khokhlov, I., Reznik, L.",2024,Blockchain Effect on Healthcare IoMT,Used non-hybrid CTI fusion,Full-Text,https://doi.org/10.11648/j.jfmhc.20241004.14
+E021,"Alkhalil, Z. et al.",2024,Blockchain-enabled IoMT network,Used non-hybrid CTI fusion,Full-Text,https://doi.org/10.1186/s13677-025-00775-4
+E022,"Khalaf, B.A. et al.",2024,Blockchain Privacy Preservation for IoMT,Used non-hybrid CTI fusion,Full-Text,https://doi.org/10.3390/electronics13193832
+E023,"Chatterjee, P. et al.",2024,IoMT Security and Privacy Frameworks,Used non-hybrid CTI fusion,Full-Text,No hybrid CTI
+E024,"Alzahrani, F.A. et al.",2024,Blockchain to Accelerate Digital Health,Used non-hybrid CTI fusion,Full-Text,https://doi.org/10.30953/bhty.v7.399
+E025,"Gupta, V. et al.",2024,IoMT with blockchain,Used non-hybrid CTI fusion,Full-Text,https://doi.org/10.1007/s43926-024-00078-1
+E026,"Al-Hawawreh, M. et al.",2024,Risk Assessment in Smart Hospitals,Used non-hybrid CTI fusion,Full-Text,Limited CTI
+E027,"Al-Mekhlafi, A.B. et al.",2024,AI-Induced Cybersecurity Risks,Used non-hybrid CTI fusion,Full-Text,Narrative review
+E028,"Sharma, S. et al.",2024,Dynamic risk assessment for MIoT,Used non-hybrid CTI fusion,Full-Text,Single-domain
+E029,"Bhuiyan, M.N. et al.",2021,IoT enabling technologies,Used non-hybrid CTI fusion,Full-Text,https://doi.org/10.1109/jiot.2021.3062630
+E030,"Ksibi, S. et al.",2022,Security in e-health systems,Used non-hybrid CTI fusion,Full-Text,https://doi.org/10.1002/spy2.235
+E031,"Garg, N. et al.",2022,Security in IoMT smart healthcare,Used non-hybrid CTI fusion,Full-Text,https://doi.org/10.1002/spy2.235
+E032,"Majdoubi, D.E. et al.",2022,Privacy-preserving smart healthcare,Used non-hybrid CTI fusion,Full-Text,https://doi.org/10.1155/2022/5642026
+E033,"Al-Abdullah, M. et al.",2024,Multimodal Models in Healthcare,Used non-hybrid CTI fusion,Full-Text,https://doi.org/10.3390/jtaer19010009
+E034,"Nguyen, T.H. et al.",2024,AI Privacy in Healthcare,Used non-hybrid CTI fusion,Full-Text,https://doi.org/10.3390/app14020675
+E035,"Al-Qarafi, A. et al.",2024,Security of Health Information Systems,Used non-hybrid CTI fusion,Full-Text,https://doi.org/10.3390/computers13020041
+E036,"Meghana, M. et al.",2024,Healthcare 5.0 Clinical Intelligence,Used non-hybrid CTI fusion,Full-Text,https://doi.org/10.3390/healthcare13202553
+E037,"Shahid, J. et al.",2024,IDS for Healthcare 5.0,Used non-hybrid CTI fusion,Full-Text,https://doi.org/10.3390/s25206261
+E038,"Al-Mekhlafi, A.B. et al.",2024,IoT Healthcare Systems Overview,Used non-hybrid CTI fusion,Full-Text,https://doi.org/10.3390/app15073629
+E039,"Wagner, N. et al.",2022,Cybersecurity Threat Taxonomies,Lacked healthcare validation,Full-Text,Taxonomy focus
+E040,"Bhuiyan, M.N. et al.",2021,IoT technologies (duplicate adjusted),Lacked healthcare validation,Full-Text,https://doi.org/10.1109/jiot.2021.3062630
+E041,"Wei, Z. et al.",2021,IoT logic bugs,Lacked healthcare validation,Full-Text,https://doi.org/10.1109/jiot.2021.3059457
+E042,World Economic Forum,2024,Global Cybersecurity Outlook,Lacked healthcare validation,Full-Text,General outlook
+E043,ISC2,2023,Cybersecurity Workforce Study,Lacked healthcare validation,Full-Text,General workforce focus
+E044,Heidrick & Struggles,2023,CISO Survey,Lacked healthcare validation,Full-Text,Broad survey
+E045,"Lian, Z., Shi, P., Chen, M.",2024,CPS Cyber-Attacks Survey,Lacked healthcare validation,Full-Text,Not healthcare-specific
+E046,"Ofusori, L. et al.",2024,AI in cybersecurity,Lacked healthcare validation,Full-Text,General AI-cyber
+E047,"Fahad, M. et al.",2024,Real-time anomaly detection,Lacked healthcare validation,Full-Text,Broad IoT/IoMT
+E048,"Wicaksono, F.D.N. et al.",2024,IoT Security Attacks in Public Sector,Lacked healthcare validation,Full-Text,Public sector only
+E049,"Kalenzi, C.",2024,AI and Blockchain Governance,Lacked healthcare validation,Full-Text,Governance-only
+E050,"Dobrovolska, O., Kolomiiets, S.",2024,Digitalisation and Public Health,Lacked healthcare validation,Full-Text,Public health
+E051,"Christopher, J.D.",2024,SANS ICS/OT Cybersecurity,Lacked healthcare validation,Full-Text,ICS/OT focus
+E052,"Kádár, B., Jáki, E.",2024,COVID-19 and SMEs,Lacked healthcare validation,Full-Text,SME review
+E053,"Shokeen, I. et al.",2024,Data in Policy Making,Lacked healthcare validation,Full-Text,Policy focus
+E054,"Abushrian, N.S. et al.",2024,Nursing Practice Transformation,Lacked healthcare validation,Full-Text,Nursing
+E055,"Mandour, S.",2024,ML + Neutrosophic Theory,Lacked healthcare validation,Full-Text,General ML
+E056,HHS,2024,Ransomware & Healthcare,Lacked healthcare validation,Full-Text,No empirical validation
+E057,HHS,2023,MFA & Smishing,Lacked healthcare validation,Full-Text,Guidance
+E058,DHS / CISA,2022,Cybersecurity Performance Goals,Lacked healthcare validation,Full-Text,Cross-sector
+E059,Ross RS et al.,2020,NIST SP 800-171r2,Lacked healthcare validation,Full-Text,https://doi.org/10.6028/NIST.SP.800-171r2
+E060,Stine KM et al.,2020,Integrating Cybersecurity & ERM,Lacked healthcare validation,Full-Text,https://doi.org/10.6028/NIST.IR.8286
+E061,Quinn SD et al.,2021,Estimating Cybersecurity Risk,Lacked healthcare validation,Full-Text,https://doi.org/10.6028/NIST.IR.8286A
+E062,"Alhawawreh, M. et al.",2024,Risk Models for Smart Hospital Environments,Lacked healthcare validation,Full-Text,Limited clinical validation
+E063,Censinet,2024,7 Metrics That Matter,Lacked healthcare validation,Full-Text,No empirical validation
+E064,BankInfoSecurity,2024,Healthcare Cyberattacks Broke Records,Lacked healthcare validation,Full-Text,News report
+E065,Compliancy Group,2024,Cybersecurity Risk Management Best Practices,Lacked healthcare validation,Full-Text,Best-practices guide
+E066,Scrut Automation,2024,Healthcare Cyber Regulations,Lacked healthcare validation,Full-Text,Regulatory overview
+E067,Accountable HQ,2024,How to Conduct a Healthcare Risk Assessment,Lacked healthcare validation,Full-Text,Guide; no empirical validation
+E068,BitSight,2024,Cybersecurity Frameworks for 2025,Lacked healthcare validation,Full-Text,Framework overview
+E069,PBMares,2024,Cyber & Risk Challenges in Healthcare,Lacked healthcare validation,Full-Text,Industry report
