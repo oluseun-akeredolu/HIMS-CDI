@@ -1,0 +1,24 @@
+Study ID,Regulatory Framework,Implementation Depth,Evidence Strength,Clinical Impact,Compliance Mechanism
+S04,GDPR Article 32,Medium-High,Moderate-Strong,Patient data protection,"Automated mapping of CTI findings to GDPR Article 32 controls"
+S07,GDPR + HIPAA,Medium,Moderate,Organizational compliance,"Differential privacy for threat intelligence sharing (ε=1.2)"
+S11,GDPR Article 32,Medium,Moderate,Patient data protection,"72-hour breach detection and notification system"
+S18,HIPAA Security Rule,Medium,Moderate,Organizational compliance,"§164.308 audit controls automation"
+S25,HIPAA Security Rule,Medium,Moderate,Technical safeguards,"§164.312 technical safeguards enforcement with EHR integration"
+S29,NHS DSPT,High,Strong,Operational readiness,"Automated evidence collection for DSPT item-level requirements"
+S33,Multiple Frameworks,High,Strong,Comprehensive coverage,"DCB0129/DCB0160 clinical safety case integration"
+S15,NHS DSPT,Medium,Moderate,Operational readiness,"Dynamic quality assessment with DSPT compliance"
+S06,GDPR,Low,Weak,Conceptual only,"XAI framework with GDPR compliance concepts"
+S37,HIPAA,Low,Weak,Contextual only,"HIPAA mentioned in healthcare challenges context"
+
+Regulatory Framework,Studies,Implementation Depth,Evidence Strength,Clinical Impact
+GDPR Article 32,4,Medium-High,Moderate-Strong,Patient data protection
+HIPAA Security Rule,3,Medium,Moderate,Organizational compliance
+NHS DSPT,2,High,Strong,Operational readiness
+Multiple Frameworks,1,High,Strong,Comprehensive coverage
+
+Gap Analysis,Count,Percentage,Description
+Lack explicit regulatory mechanisms,34,79%,"Studies without explicit regulatory compliance mechanisms"
+Cover multiple regulatory frameworks,2,5%,"Studies addressing more than one regulatory framework"
+International regulatory harmonization,0,0%,"No studies address international regulatory harmonization"
+Audit trail generation,9,21%,"Limited focus on audit trail generation for regulatory evidence"
+Clinical safety standards,2,5%,"Minimal consideration of clinical safety standards (IEC 62304, DCB)"

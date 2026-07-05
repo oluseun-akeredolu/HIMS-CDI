@@ -1,0 +1,44 @@
+study_id,reported_accuracy,reported_latency_ms,reported_memory_mb,hardware_tested,explainability_method,audit_trail_described
+S01,,450,512,"Cloud Server",,FALSE
+S02,,320,780,"GPU Cluster",,FALSE
+S03,,,,,,"NLP-based reasoning",TRUE
+S04,0.92,,,,"Compliance mapping","Automated regulatory mapping",TRUE
+S05,0.89,180,95,"Raspberry Pi 4, NVIDIA Jetson Nano","Transfer learning feature importance",FALSE
+S06,,,,"Generic server","XAI framework",TRUE
+S07,,,,,"Framework documentation","Evidence standards",TRUE
+S08,0.94,280,650,"GPU Server","Multimodal attribution",FALSE
+S09,0.87,45,120,"Standard server","Statistical analysis",FALSE
+S10,0.91,,,,"Correlation analysis","Intelligence assessment",FALSE
+S11,0.85,,,,"NLP explanations","Clinical context",TRUE
+S12,,,,,"Survey synthesis","Literature analysis",FALSE
+S13,,,,,"Review methodology","Resilience framework",FALSE
+S14,0.88,,,,"Metrics validation","Quality assessment",FALSE
+S15,0.93,156,89,"NHS test environment","Dynamic assessment","DSPT compliance",TRUE
+S16,,,,"Processing pipeline","Pipeline transparency",FALSE
+S17,0.90,,,,"Quality assessment","Embedding evaluation",FALSE
+S18,,,,,"Policy analysis","Regulatory framework",TRUE
+S19,0.86,,,,"Forecasting methodology","Proactive analysis",FALSE
+S20,0.89,,,,"Adversarial learning","Contrastive methods",FALSE
+S21,0.84,,,,"Risk prediction","Statistical models",FALSE
+S22,,,,,"Fusion analysis","Systematic review",FALSE
+S23,0.87,,,,"Provenance graphs","Empirical evaluation",FALSE
+S24,0.91,,,,"Trigger mechanisms","Actionable intelligence",FALSE
+S25,0.83,,,,"Experimental validation","Mapping accuracy",FALSE
+S26,0.95,,,,"Knowledge graph","Attribution methods",FALSE
+S27,0.88,,,,"Active learning","Extraction framework",FALSE
+S28,0.86,,,,"AI detection","Network security",FALSE
+S29,0.92,234,196,"Google Coral Dev Board","Graph learning","NHS integration",TRUE
+S30,0.85,,,,"PCA-DNN","Anomaly detection",FALSE
+S31,0.93,,,,"Heterogeneous networks","Modeling approach",FALSE
+S32,0.89,,,,"Graph convolutional","Threat modeling",FALSE
+S33,,,,,"XAI taxonomy","Conceptual framework",FALSE
+S34,,,,,"Survey methodology","Landscape analysis",FALSE
+S35,,,,,"Review synthesis","Capability assessment",FALSE
+S36,,,,,"Survey analysis","Overview study",FALSE
+S37,,,,,"Scoping review","Healthcare challenges",FALSE
+S38,,,,,"Comparative study","Incident response",FALSE
+S39,,,,,"Security review","Threat analysis",FALSE
+S40,,,,,"Research review","Advances synthesis",FALSE
+S41,,,,,"Mapping study","Literature analysis",FALSE
+S42,,,,,"Systematic review","Assurance focus",FALSE
+S43,,,,,"Methodological guide","Best practices",FALSE

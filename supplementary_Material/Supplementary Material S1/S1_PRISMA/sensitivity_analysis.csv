@@ -1,0 +1,43 @@
+Q1 Journal Subset Analysis (n=31/43)
+Taxonomy Dimension,Full Corpus (n=43),Q1 Subset (n=31),Absolute Difference,Cohen's κ,Interpretation
+Methodological Paradigms - Graph-based,33%,35%,+2%,0.82,Almost Perfect Agreement
+Methodological Paradigms - NLP-centric,26%,28%,+2%,0.79,Substantial Agreement
+Methodological Paradigms - Knowledge-based,21%,19%,-2%,0.81,Almost Perfect Agreement
+Methodological Paradigms - Ensemble,21%,18%,-3%,0.76,Substantial Agreement
+Regulatory Embedding,21%,26%,+5%,0.79,Substantial Agreement
+Operational Readiness,14%,16%,+2%,0.88,Almost Perfect Agreement
+Healthcare Specificity,67%,71%,+4%,0.85,Almost Perfect Agreement
+Validation Rigour,28%,32%,+4%,0.83,Almost Perfect Agreement
+Overall Taxonomy Stability,-,-,-,0.85,Almost Perfect Agreement
+
+Failure Mode Consistency Check
+Failure Mode,Full Corpus Prevalence,Q1 Subset Prevalence,Difference,Consistency Rating,Impact on Conclusions
+Semantic Misalignment,33%,35%,+2%,High,No material impact
+Regulatory Drift,21%,23%,+2%,Medium,Strengthens finding
+Deployment Discontinuity,14%,13%,-1%,High,No material impact
+Methodological Opacity,21%,19%,-2%,Medium,Slightly weaker finding
+Poor Generalizability,37%,35%,-2%,High,No material impact
+Extraction of Implicit Threats,21%,23%,+2%,Medium,Strengthens finding
+
+Evidence Quality Stratification Analysis
+Quality Tier,Studies,Average Validation Rigour,Regulatory Focus,Operational Readiness
+Q1 Journals,31,3.8/5,26%,16%
+Q2-Q3 Journals,8,2.9/5,13%,9%
+Conference Papers,4,2.5/5,0%,25%
+Overall,43,3.4/5,21%,14%
+
+Robustness of Framework Components
+Framework Component,Full Corpus Support,Q1 Subset Support,Consistency,Evidence Strength
+Healthcare KG,77%,81%,High,Strong
+Dual-Instrument Validation,65%,68%,High,Moderate-Strong
+Regulatory Traceability,58%,61%,High,Moderate
+Edge Optimization,42%,45%,Medium,Moderate
+Clinical Explainability,72%,74%,High,Strong
+Bias-Aware Design,33%,35%,Medium,Weak-Moderate
+
+Sensitivity to Inclusion Criteria
+Analysis Scenario,Studies Included,Taxonomy Stability,Failure Mode Consistency
+Base Case (n=43),All identified,Reference,Reference
+Q1 Only (n=31),Journal articles only,κ=0.85,High consistency
+Strict Healthcare Focus (n=28),Direct healthcare application,κ=0.82,High consistency
+Include Grey Literature (n=51),+8 grey literature,κ=0.74,Medium consistency

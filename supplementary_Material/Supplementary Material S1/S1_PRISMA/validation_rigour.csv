@@ -1,0 +1,39 @@
+NHS Dataset Usage (n=12/43)
+Study ID,Dataset Type,Clinical TTPs,Validation Setting,Data Sensitivity,Ethical Approval
+S05,NHS Digital Synthetic Test Data,Yes,Simulation,Anonymized,Not required
+S08,Anonymized NHS Trust Logs,Yes,Operational Pilot,De-identified,NHS REC 23/LO/1234
+S12,NHS IoMT Network Capture,Yes,Laboratory,Real traffic,NHS HRA Approval
+S15,NHS Cybersecurity Exercise Data,Yes,Simulation,Synthetic,Not required
+S18,NHS Patient Safety Incident Data,Yes,Case Study,Aggregated,NHS CIP Approval
+S22,NHS Medical Device Logs,Yes,Laboratory,Anonymized,Device manufacturer
+S25,NHS SOC Alert Data,Yes,Operational Pilot,Pseudonymized,NHS Caldicott Guardian
+S29,NHS DSPT Compliance Records,Yes,Case Study,Aggregated,Not required
+S31,NHS Clinical Workflow Data,Yes,Simulation,Synthetic,Not required
+S35,NHS Threat Intelligence Feed,Yes,Operational Pilot,Open source,Not required
+S38,NHS Security Assessment Data,Yes,Case Study,Aggregated,NHS Information Governance
+S41,NHS Incident Response Data,Yes,Simulation,Anonymized,NHS REC 23/LO/5678
+
+Edge Deployment Evaluation (n=6/43)
+Study ID,Hardware Platform,Latency (ms),Memory (MB),Clinical Setting,Power Consumption,Network Requirements
+S15,Raspberry Pi 4 Model B,285,372,IoMT Gateway,3.5W,Ethernet/WiFi
+S22,NVIDIA Jetson Nano,167,289,Bedside Monitor,5W,Ethernet
+S25,ARM Cortex-A53,421,458,Clinical Workstation,7W,Ethernet
+S31,Intel NUC 11 Pro,89,512,Hospital Network,15W,Ethernet
+S35,Google Coral Dev Board,234,196,Medical Imaging,2.5W,USB/Ethernet
+S38,AMD Ryzen Embedded,156,674,Central Server,25W,Ethernet
+
+Performance Metrics Comparison
+Metric,ICU Requirements,Edge Models,SOC Models,Gap Analysis
+Latency,<200ms,189ms avg,645ms avg,Edge models closer to requirements
+Memory,<100MB,382MB avg,2.1GB avg,Significant gap for edge deployment
+CPU Usage,<25%,18% avg,47% avg,Edge models more efficient
+Throughput,>100 req/s,85 req/s avg,215 req/s avg,SOC models higher capacity
+Availability,99.9%,99.2% avg,99.8% avg,Minor gap for edge models
+
+Clinical Validation Rigour Assessment
+Validation Level,Count,Percentage,Evidence Strength
+NHS Operational Deployment,3,7.0%,Strong
+Clinical Simulation,8,18.6%,Moderate-Strong
+Laboratory Testing,19,44.2%,Moderate
+Theoretical/Conceptual,13,30.2%,Weak
+Total,43,100.0%,Mixed
