@@ -61,22 +61,44 @@ def load_subsamples():
     return subs
 
 
-def reliability_diagram(y_true, y_prob, path: Path, n_bins=10, title="Reliability diagram"):
-    bins = np.linspace(0, 1, n_bins + 1)
+def reliability_diagram(y_true, y_prob, path: Path, n_bins=15, title="Reliability diagram"):
+    """
+    Equal-frequency (percentile) reliability diagram, matching Appendix I.2's
+    "M = 15 equal-frequency bins" and the BBQ calibration methodology itself
+    -- the diagram should bin the same way the calibrator does.
+
+    Floor/ceiling are forced to 0.0/1.0 and duplicate percentile edges are
+    collapsed (np.unique) so ties in heavily-imbalanced risk scores don't
+    produce zero-width bins. The last bin is inclusive of 1.0 -- probability
+    mass at exactly the maximum is plotted, not silently dropped.
+    """
+    raw = np.percentile(y_prob, np.linspace(0, 100, n_bins + 1))
+    raw[0] = 0.0
+    raw[-1] = 1.0
+    bins = np.unique(raw)
+    n_actual_bins = len(bins) - 1
+
     accs, confs, counts = [], [], []
-    for lo, hi in zip(bins[:-1], bins[1:]):
-        mask = (y_prob >= lo) & (y_prob < hi)
+    for i, (lo, hi) in enumerate(zip(bins[:-1], bins[1:])):
+        if i == n_actual_bins - 1:
+            mask = (y_prob >= lo) & (y_prob <= hi)
+        else:
+            mask = (y_prob >= lo) & (y_prob < hi)
         if mask.sum() == 0:
             continue
         accs.append(y_true[mask].mean())
         confs.append(y_prob[mask].mean())
         counts.append(mask.sum())
+
     fig, ax = plt.subplots(figsize=(5, 5))
     ax.plot([0, 1], [0, 1], "k--", label="Perfect calibration")
-    ax.scatter(confs, accs, s=np.array(counts) / max(counts) * 200 + 20, alpha=0.7, label="Observed bins")
+    sizes = np.array(counts) / max(counts) * 200 + 20 if counts else []
+    ax.scatter(confs, accs, s=sizes, alpha=0.7, label="Observed bins")
     ax.set_xlabel("Predicted risk (confidence)")
     ax.set_ylabel("Observed attack rate")
-    ax.set_title(title)
+    ax.set_title(title, fontsize=10, wrap=True)
+    ax.set_xlim(0, 1)
+    ax.set_ylim(0, 1)
     ax.legend()
     fig.tight_layout()
     fig.savefig(path, dpi=150)
