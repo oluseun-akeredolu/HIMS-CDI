@@ -1,0 +1,27 @@
+{
+  "dataset": "real CIC IoMT 2024 (51 files, systematic subsample due to sandbox RAM/CPU limits)",
+  "subsample_sizes": {
+    "train": 206562,
+    "tune": 71610,
+    "test": 70182
+  },
+  "proposed_bbq_calibrated": {
+    "ece": 0.002409585162329868,
+    "auroc_mean": 0.9795657970405613,
+    "auroc_ci_95": [
+      0.9788370405031042,
+      0.9802614768812754
+    ],
+    "n_bootstrap_valid": 1000
+  },
+  "baseline_uncalibrated_pf": {
+    "ece": 0.0483703349766034,
+    "auroc": 0.9998172106203254
+  },
+  "baseline_logistic_regression": {
+    "ece": 0.01143059345256085,
+    "auroc": 0.9958741182025198
+  },
+  "tune_ece_fit_set": 0.00019811153706419393,
+  "single_source_caveat": "Real CIC IoMT 2024 provides one capture-pipeline source, not five. CorrelationAwareWeighting and the multi-dimension vector particle state were not exercised meaningfully on this data -- see real_source_fusion.py docstring."
+}

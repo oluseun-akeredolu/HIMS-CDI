@@ -1,0 +1,6 @@
+{
+  "artefact_path": "/home/claude/pipeline_run/artifacts/frozen_model_real.joblib",
+  "sha256": "15f5a6430da7ae311dc389d497d1e105ff0f3826bdc997ee3bb25ec3726e5632",
+  "frozen_at_utc": "2026-08-14T06:00:37.050071+00:00",
+  "dataset": "real CIC IoMT 2024 (systematic subsample, see subsample.py)"
+}
