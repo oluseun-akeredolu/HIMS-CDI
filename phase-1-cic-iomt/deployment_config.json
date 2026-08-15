@@ -1,9 +1,9 @@
 {
   "deployment_name": "HIMS-CDI Phase 1 Shadow Pilot",
-  "site": "Anonymised NHS Trust Ward X",
+  "site": "Lewisham and Greenwich NHS Trust",
   "dates": {
-    "start": "2024-05-20T00:00:00Z",
-    "end": "2024-06-19T23:59:59Z"
+    "start": "2026-10-01T00:00:00Z",
+    "end": "2026-10-31T23:59:59Z"
   },
   "model": {
     "frozen_artifact_path": "/app/artifacts/frozen_model_real.joblib",
@@ -35,5 +35,7 @@
     "git_tag": "pilot-deploy-v1.1.0",
     "git_commit": "b9bad99",
     "frozen_at_utc": "2026-08-14T06:00:37+00:00"
-  }
+  },
+  "git_commit": "8b136c9",
+  "git_tag": "v1.2.0"
 }
