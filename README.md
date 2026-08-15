@@ -19,7 +19,7 @@ Research artefacts for the HIMS-CDI governance-first architecture (Akeredolu et 
 The Phase 1 pipeline is released under **Apache License 2.0** and archived on Zenodo:
 
 - **GitHub:** `https://github.com/oluseun-akeredolu/HIMS-CDI/tree/main/phase-1-cic-iomt`
-- **Zenodo:** `https://doi.org/10.5281/zenodo.21954311`
+- **Zenodo:** `https://doi.org/10.5281/zenodo.21955259`
 
 ### Citation
 
