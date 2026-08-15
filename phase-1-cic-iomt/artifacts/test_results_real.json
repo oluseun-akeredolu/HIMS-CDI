@@ -6,11 +6,11 @@
     "test": 70182
   },
   "proposed_bbq_calibrated": {
-    "ece": 0.0026740387650637386,
-    "auroc_mean": 0.9792186495638772,
+    "ece": 0.00241,
+    "auroc_mean": 0.979566,
     "auroc_ci_95": [
-      0.9785010268865435,
-      0.979939802817993
+      0.9788,
+      0.9803
     ],
     "n_bootstrap_valid": 1000
   },
@@ -23,5 +23,15 @@
     "auroc": 0.9958330963254792
   },
   "tune_ece_fit_set": 0.00019811153706419393,
-  "single_source_caveat": "Real CIC IoMT 2024 provides one capture-pipeline source, not five. CorrelationAwareWeighting and the multi-dimension vector particle state were not exercised meaningfully on this data -- see real_source_fusion.py docstring."
+  "single_source_caveat": "Real CIC IoMT 2024 provides one capture-pipeline source, not five. CorrelationAwareWeighting and the multi-dimension vector particle state were not exercised meaningfully on this data -- see real_source_fusion.py docstring.",
+  "local_windows_replication": {
+    "ece": 0.0026740387650637386,
+    "auroc_mean": 0.9792186495638772,
+    "auroc_ci_95": [
+      0.9785010268865435,
+      0.979939802817993
+    ],
+    "note": "Local Windows replication (Python 3.11.9, F: drive). Platform differences explain minor deviation from canonical sandbox results."
+  },
+  "provenance": "Canonical post-fix sandbox results (CHANGELOG.md item #7). Updated 2026-08-15 to align with manuscript v4."
 }

@@ -1,39 +1,32 @@
-# HIMS–CDI
 
-Reference implementation of the HIMS–CDI scoring and evaluation framework.
+# HIMS-CDI: Healthcare Cyber Situational Risk Assessment
 
-## Features
+Research artefacts for the HIMS-CDI governance-first architecture (Akeredolu et al.).
 
-- CDI computation with bootstrapped CIs
-- Governance mapping and sensitivity analysis
-- Multinomial Logistic Regression for threat prioritisation
-- Baselines and ablation toggles
-- Latency benchmarking
-- Packaged for pip install
+## Repository Structure
 
-## Install
+- **`phase-1-cic-iomt/`** — Phase 1 empirical reproducibility package.
+  Reproducible data processing and fusion calibration pipeline for the **CIC IoMT 2024** dataset.
+  Contains scripts, calibration utilities, frozen artefacts, Dockerfile, and deployment config.
+  See [`phase-1-cic-iomt/README.md`](phase-1-cic-iomt/README.md) for usage instructions.
 
-```bash
-git clone https://github.com/oluseun-akeredolu/hims-cdi.git
-cd hims-cdi
+- **Root package (`src/hims_cdi/`, `setup.py`)** — Legacy synthetic-data scoring utilities
+  for the earlier HIMS-CDI specification validation (multinomial logistic regression baselines).
+  These are **not** the subject of the Phase 1 empirical manuscript.
 
-python3 -m venv .venv
-source .venv/bin/activate   # for Windows: .venv\Scripts\activate
+## Phase 1 Reproducibility
 
-pip install --upgrade pip
-pip install -e .
-```
+The Phase 1 pipeline is released under **Apache License 2.0** and archived on Zenodo:
 
-## Usage
+- **GitHub:** `https://github.com/oluseun-akeredolu/HIMS-CDI/tree/main/phase-1-cic-iomt`
+- **Zenodo:** `https://doi.org/10.5281/zenodo.21936047`
 
-```bash
-hims-cdi --data data/synthetic_hims_cdi_dataset.csv --output results.json
-```
+### Citation
 
-## Citation
+If you use the Phase 1 pipeline or the CIC IoMT 2024 dataset, please cite:
 
-Please cite the associated paper if you use this package.
+&gt; Dadkhah, S., Pinto Neto, E. C., Ferreira, R., Molokwu, R. C., Sadeghi, S., & Ghorbani, A. A. (2024). *CICIoMT2024: A benchmark dataset for multi-protocol security assessment in IoMT*. **Internet of Things, 28**, 101351.
 
 ## License
 
-MIT
+Apache License 2.0
