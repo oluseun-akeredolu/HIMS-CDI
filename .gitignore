@@ -1,1 +1,14 @@
 phase-1-cic-iomt/data/
+
+# Generated files
+*.log
+*.jsonl
+test_event.json
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Generated data
+phase-1-cic-iomt/data/
