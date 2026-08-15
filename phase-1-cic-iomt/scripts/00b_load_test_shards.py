@@ -37,9 +37,9 @@ def attack_type_from_filename(path: Path) -> str:
 
 
 def main() -> None:
-    files = sorted(RAW_DIR.glob("*_test_pcap.csv"))
+    files = sorted(RAW_DIR.glob("*_test.pcap.csv"))
     if not files:
-        raise FileNotFoundError(f"No *_test_pcap.csv files found in {RAW_DIR}")
+        raise FileNotFoundError(f"No *_test.pcap.csv files found in {RAW_DIR}")
     print(f"Found {len(files)} official test files.")
 
     SHARD_DIR.mkdir(parents=True, exist_ok=True)

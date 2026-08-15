@@ -46,9 +46,9 @@ def attack_type_from_filename(path: Path) -> str:
 
 def main() -> None:
     # CRITICAL FIX: Only load training files, NOT test files
-    files = sorted(RAW_DIR.glob("*_train_pcap.csv"))
+    files = sorted(RAW_DIR.glob("*_train.pcap.csv"))
     if not files:
-        raise FileNotFoundError(f"No *_train_pcap.csv files found in {RAW_DIR}")
+        raise FileNotFoundError(f"No *_train.pcap.csv files found in {RAW_DIR}")
     print(f"Found {len(files)} training files. Processing file-by-file to keep memory bounded.")
 
     SHARD_DIR.mkdir(parents=True, exist_ok=True)
