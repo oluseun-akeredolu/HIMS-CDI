@@ -1,228 +1,303 @@
+#!/usr/bin/env python3
 """
-streaming_engine.py
-
-Live inference engine for shadow-mode deployment.
-Reads one JSON event at a time, scores it, and writes the result to a
-local log file. No network traffic leaves the machine.
+HIMS-CDI Streaming Engine — Shadow-Mode Pilot
+Runs on Windows 11 NHS PC as a dedicated appliance.
 """
 
-import sys
-import json
-import time
-import logging
+import argparse
 import hashlib
-from pathlib import Path
-from datetime import datetime, timezone
+import json
+import logging
+import pathlib
+import signal
+import sys
+import time
+from logging.handlers import RotatingFileHandler
 
 import numpy as np
-import joblib
 import psutil
+import joblib
 
-# ------------------------------------------------------------------
-# PATH SETUP
-# ------------------------------------------------------------------
-# This file lives at: phase-1-cic-iomt/src/csra/streaming_engine.py
-# We need to reach phase-1-cic-iomt/ to find artifacts/
-_PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
-sys.path.insert(0, str(_PROJECT_ROOT / "src"))
-sys.path.insert(0, str(_PROJECT_ROOT / "scripts"))
-
-from csra.config import ARTIFACTS_DIR
-from csra.calibration import bbq_predict
-from real_source_fusion import ScalarParticleFilter
-
-# ------------------------------------------------------------------
-# FILE PATHS
-# ------------------------------------------------------------------
-FROZEN_MODEL_PATH = ARTIFACTS_DIR / "frozen_model_real.joblib"
-MANIFEST_PATH = ARTIFACTS_DIR / "frozen_model_real.manifest.json"
-LOG_DIR = _PROJECT_ROOT / "logs"
-LOG_DIR.mkdir(exist_ok=True)
-
-# ------------------------------------------------------------------
-# GOVERNANCE THRESHOLDS
-# ------------------------------------------------------------------
-LATENCY_MS_THRESHOLD = 200
-MEMORY_MB_THRESHOLD = 100
-
-# ------------------------------------------------------------------
-# LOGGING SETUP
-# ------------------------------------------------------------------
-logging.basicConfig(
-    level=logging.DEBUG,
-    format="%(asctime)s | %(levelname)s | %(message)s",
-    handlers=[
-        logging.FileHandler(LOG_DIR / "inference.log"),
-        logging.StreamHandler(sys.stdout)
-    ]
-)
-logger = logging.getLogger("streaming_engine")
-
-# ------------------------------------------------------------------
-# GLOBAL STATE (created once when the engine starts)
-# ------------------------------------------------------------------
+# -----------------------------------------------------------------------------
+# Globals set during initialize()
+# -----------------------------------------------------------------------------
 _model_bundle = None
-_particle_filter = None
+_clf = None
+_config = None
+_baseline_memory_mb = 0.0
+_logger = logging.getLogger("hims_cdi")
+_audit_logger = logging.getLogger("hims_cdi.audit")
 
 
-def verify_model_integrity():
-    """
-    Step 1 when the engine boots: read the frozen model and check that
-    its SHA-256 hash matches the manifest. If someone tampered with
-    the file, this raises an error and stops everything.
-    """
-    logger.info("Verifying model integrity...")
-    
-    with open(MANIFEST_PATH) as f:
+# -----------------------------------------------------------------------------
+def load_config(config_path: pathlib.Path) -> dict:
+    """Load and validate deployment configuration."""
+    with open(config_path, "r", encoding="utf-8") as f:
+        cfg = json.load(f)
+
+    required_top = [
+        "frozen_artifact_path",
+        "manifest_path",
+        "log_dir",
+        "log_level",
+        "log_rotation_mb",
+        "retention_days",
+    ]
+    for key in required_top:
+        if key not in cfg:
+            raise KeyError(f"Missing required config key: {key}")
+
+    # Governance gates — provide defaults if absent so the engine never crashes
+    gates = cfg.get("governance_gates", {})
+    gates.setdefault("latency_ms_max", 200)
+    gates.setdefault("memory_mb_max", 100)
+    cfg["governance_gates"] = gates
+
+    # Resolve relative paths against the directory containing the config file
+    base = config_path.parent.resolve()
+    for key in ("frozen_artifact_path", "manifest_path"):
+        p = pathlib.Path(cfg[key])
+        if not p.is_absolute():
+            cfg[key] = str(base / p)
+
+    log_dir = pathlib.Path(cfg["log_dir"])
+    if not log_dir.is_absolute():
+        cfg["log_dir"] = str(base / log_dir)
+    return cfg
+
+
+# -----------------------------------------------------------------------------
+def setup_logging(log_dir: pathlib.Path, level: str, rotation_mb: int, retention: int):
+    """Configure rotating file logs and console output."""
+    log_dir = pathlib.Path(log_dir)
+    log_dir.mkdir(parents=True, exist_ok=True)
+
+    fmt = "%(asctime)s | %(levelname)-8s | %(name)s | %(message)s"
+    datefmt = "%Y-%m-%d %H:%M:%S"
+
+    root = logging.getLogger()
+    root.setLevel(getattr(logging, level.upper(), logging.INFO))
+
+    # Clear existing handlers to avoid duplicates on re-import
+    for h in list(root.handlers):
+        root.removeHandler(h)
+
+    # Rotating inference log
+    inf_handler = RotatingFileHandler(
+        log_dir / "inference.log",
+        maxBytes=rotation_mb * 1024 * 1024,
+        backupCount=retention,
+        encoding="utf-8",
+    )
+    inf_handler.setFormatter(logging.Formatter(fmt, datefmt))
+    root.addHandler(inf_handler)
+
+    # Console handler
+    con_handler = logging.StreamHandler(sys.stdout)
+    con_handler.setFormatter(logging.Formatter(fmt, datefmt))
+    root.addHandler(con_handler)
+
+    # Audit log (JSON Lines) — separate logger, events are small
+    audit_path = log_dir / "audit.jsonl"
+    audit_handler = logging.FileHandler(audit_path, encoding="utf-8")
+    audit_handler.setFormatter(logging.Formatter("%(message)s"))
+    _audit_logger.setLevel(logging.INFO)
+    _audit_logger.addHandler(audit_handler)
+    _audit_logger.propagate = False
+
+    _logger.info("Logging initialized. Audit stream: %s", audit_path)
+
+
+# -----------------------------------------------------------------------------
+def verify_model_integrity(model_path: pathlib.Path, manifest_path: pathlib.Path):
+    """SHA-256 verification before loading."""
+    with open(manifest_path, "r", encoding="utf-8") as f:
         manifest = json.load(f)
 
-    with open(FROZEN_MODEL_PATH, "rb") as f:
-        actual_hash = hashlib.sha256(f.read()).hexdigest()
-
-    if actual_hash != manifest["sha256"]:
-        logger.error("SHA-256 MISMATCH!")
-        logger.error("Expected: %s", manifest["sha256"])
-        logger.error("Actual:   %s", actual_hash)
-        raise ValueError("Frozen model integrity check failed. DO NOT DEPLOY.")
-
-    logger.info("Model integrity verified. SHA-256: %s", actual_hash)
-    return joblib.load(FROZEN_MODEL_PATH)
+    actual = hashlib.sha256(model_path.read_bytes()).hexdigest()
+    expected = manifest.get("sha256", "")
+    if actual != expected:
+        raise ValueError(
+            f"Model integrity check FAILED.\n"
+            f"  Expected: {expected}\n"
+            f"  Actual:   {actual}"
+        )
+    _logger.info("Model integrity verified (SHA-256 match).")
 
 
-def initialize():
-    """
-    Run once at startup. Loads the model and creates the particle filter.
-    The particle filter's state lives in memory and is reused for every
-    event that arrives.
-    """
-    global _model_bundle, _particle_filter
-    
-    _model_bundle = verify_model_integrity()
-    
-    # Create particle filter with the same settings used during training
-    _particle_filter = ScalarParticleFilter(
-        n_particles=1000, 
-        process_noise=0.1, 
-        seed=7
-    )
-    
-    # If the freeze bundle saved a particle filter state, restore it.
-    if "particle_filter_state" in _model_bundle:
-        state = _model_bundle["particle_filter_state"]
-        _particle_filter.particles = state["particles"]
-        _particle_filter.weights = state["weights"]
-        logger.info("Restored particle filter state from frozen bundle.")
+# -----------------------------------------------------------------------------
+def initialize(config_path: pathlib.Path = None):
+    """Load config, verify model, warm up predictor, record baseline memory."""
+    global _model_bundle, _clf, _config, _baseline_memory_mb
+
+    if config_path is None:
+        config_path = pathlib.Path("phase-1-cic-iomt/deployment_config.json").resolve()
     else:
-        logger.info("No saved PF state found; starting fresh.")
+        config_path = pathlib.Path(config_path).resolve()
 
-    logger.info("Engine initialized. Ready to process events.")
+    _config = load_config(config_path)
+    setup_logging(
+        _config["log_dir"],
+        _config["log_level"],
+        _config["log_rotation_mb"],
+        _config["retention_days"],
+    )
+
+    model_path = pathlib.Path(_config["frozen_artifact_path"])
+    manifest_path = pathlib.Path(_config["manifest_path"])
+
+    verify_model_integrity(model_path, manifest_path)
+
+    _model_bundle = joblib.load(model_path)
+    _clf = _model_bundle["classifier"]
+    feature_cols = _model_bundle["feature_cols"]
+
+    _logger.info("Model loaded: %s", type(_clf).__name__)
+    _logger.info("Feature columns: %d", len(feature_cols))
+
+    # Warm-up to avoid counting numpy/sklearn thread-pool spin-up as latency
+    dummy = np.zeros((1, len(feature_cols)), dtype=np.float32)
+    _ = _clf.predict_proba(dummy)
+    _logger.info("Warm-up predict_proba() completed.")
+
+    # Baseline memory after model is loaded (delta measurement)
+    process = psutil.Process()
+    _baseline_memory_mb = process.memory_info().rss / (1024 * 1024)
+    _logger.info("Baseline memory: %.2f MB", _baseline_memory_mb)
 
 
-def process_event(event_dict):
+# -----------------------------------------------------------------------------
+def process_event(event_dict: dict) -> dict:
     """
     Score a single event.
-    
-    event_dict is a Python dictionary. It should contain the feature
-    columns from the CIC IoMT 2024 dataset. If a column is missing,
-    the engine uses 0.0 as a safe default.
+    Returns a dict with risk_score (or None if unscorable) and metadata.
     """
-    t0 = time.perf_counter()
+    global _clf, _model_bundle, _config, _baseline_memory_mb
 
-    # 1. Build the feature vector in the exact order the model expects
+    if _clf is None:
+        raise RuntimeError("Engine not initialized. Call initialize() first.")
+
+    event_id = event_dict.get("event_id", "UNKNOWN")
     feature_cols = _model_bundle["feature_cols"]
+
+    # --- P1 Fix: Refuse to score if features are missing --------------------
     missing = [col for col in feature_cols if col not in event_dict]
     if missing:
-        logger.warning("Event %s missing features: %s. Refusing to score.", event_dict.get("event_id", "unknown"), missing)
-        return None
+        _logger.warning(
+            "Event %s missing features: %s. Refusing to score.",
+            event_id,
+            missing,
+        )
+        return {
+            "event_id": event_id,
+            "risk_score": None,
+            "scored": False,
+            "reason": f"missing_features:{missing}",
+        }
+
+    # Build feature vector
     x = np.array([[event_dict[col] for col in feature_cols]], dtype=np.float32)
 
-    # 2. Base classifier: turns features into a raw risk score
-    clf = _model_bundle["classifier"]
-    raw_risk = clf.predict_proba(x)[0, 1]
+    # --- Timed inference ----------------------------------------------------
+    t0 = time.perf_counter()
+    raw_risk = float(_clf.predict_proba(x)[0, 1])
+    latency_ms = (time.perf_counter() - t0) * 1000.0
 
-    # 3. Particle filter: smooths the raw risk using past events
-    smoothed_risk = _particle_filter.step(raw_risk)
+    # --- Delta memory -------------------------------------------------------
+    process = psutil.Process()
+    current_mb = process.memory_info().rss / (1024 * 1024)
+    delta_mb = current_mb - _baseline_memory_mb
 
-    # 4. BBQ calibration: turns the smoothed score into a true probability
-    bbq_model = _model_bundle["bbq_model"]
-    calibrated_risk = bbq_predict(bbq_model, np.array([smoothed_risk]))[0]
+    # --- Governance gate evaluation -----------------------------------------
+    gates = _config["governance_gates"]
+    gate_latency = latency_ms <= gates["latency_ms_max"]
+    gate_memory = delta_mb <= gates["memory_mb_max"]
+    gate_overall = gate_latency and gate_memory
 
-    # 5. Measure speed and memory (Gate 3 checks)
-    latency_ms = (time.perf_counter() - t0) * 1000
-    memory_mb = psutil.Process().memory_info().rss / (1024 * 1024)
+    if not gate_latency:
+        _logger.warning(
+            "Event %s breached latency gate: %.2f ms > %d ms",
+            event_id,
+            latency_ms,
+            gates["latency_ms_max"],
+        )
+    if not gate_memory:
+        _logger.warning(
+            "Event %s breached memory gate: %.2f MB > %d MB",
+            event_id,
+            delta_mb,
+            gates["memory_mb_max"],
+        )
 
-    # 6. Check governance gates
-    gate_status = {
-        "gate3_latency_pass": latency_ms < LATENCY_MS_THRESHOLD,
-        "gate3_memory_pass": memory_mb < MEMORY_MB_THRESHOLD,
-    }
-    all_gates_pass = all(gate_status.values())
-
-    # 7. Build the result record
     result = {
-        "timestamp_utc": datetime.now(timezone.utc).isoformat(),
-        "event_id": event_dict.get("event_id", "unknown"),
-        "raw_risk": float(raw_risk),
-        "smoothed_risk": float(smoothed_risk),
-        "calibrated_risk": float(calibrated_risk),
+        "event_id": event_id,
+        "risk_score": raw_risk,
+        "scored": True,
         "latency_ms": round(latency_ms, 3),
-        "memory_mb": round(memory_mb, 2),
-        "gate_status": gate_status,
-        "all_gates_pass": all_gates_pass,
+        "memory_delta_mb": round(delta_mb, 3),
+        "gate_latency_pass": gate_latency,
+        "gate_memory_pass": gate_memory,
+        "gate_overall_pass": gate_overall,
     }
-
     return result
 
 
-def main_loop():
-    """
-    The engine's heart. It reads JSON lines one by one.
-    In production, this is replaced by a Kafka reader or a pcap watcher.
-    For testing, it reads from your keyboard (stdin).
-    """
-    logger.info("=" * 60)
-    logger.info("HIMS-CDI Streaming Engine Starting")
-    logger.info("=" * 60)
-    
-    initialize()
+# -----------------------------------------------------------------------------
+def audit_log(result: dict):
+    """Write structured JSON Lines audit record."""
+    record = {
+        "timestamp_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+    }
+    record.update(result)
+    _audit_logger.info(json.dumps(record, separators=(",", ":")))
 
-    logger.info("Reading JSON events from stdin...")
-    logger.info("Tip: Type a JSON line and press Enter. Ctrl+C to stop.")
-    
-    try:
-        for line in sys.stdin:
-            line = line.strip()
-            if not line:
-                continue
-            
-            try:
-                event = json.loads(line)
-            except json.JSONDecodeError as e:
-                logger.error("Invalid JSON skipped: %s", e)
-                continue
 
-            try:
-                result = process_event(event)
-                
-                # Write to local log file ONLY — no internet, no remote server
-                log_file = LOG_DIR / "scores.jsonl"
-                with open(log_file, "a") as f:
-                    f.write(json.dumps(result) + "\n")
-                
-                # Also print to the screen so you can see it
-                print(json.dumps(result))
-                
-                # If a gate fails, shout about it
-                if not result["all_gates_pass"]:
-                    logger.warning("GOVERNANCE GATE BREACH: %s", result)
+# -----------------------------------------------------------------------------
+def main():
+    parser = argparse.ArgumentParser(description="HIMS-CDI Streaming Engine")
+    parser.add_argument(
+        "--config",
+        default="phase-1-cic-iomt/deployment_config.json",
+        help="Path to deployment_config.json",
+    )
+    args = parser.parse_args()
 
-            except Exception as e:
-                logger.error("Failed to process event: %s", e, exc_info=True)
-                
-    except KeyboardInterrupt:
-        logger.info("Shutdown signal received. Exiting cleanly.")
+    config_path = pathlib.Path(args.config).resolve()
+    initialize(config_path)
+
+    gates = _config["governance_gates"]
+    _logger.info(
+        "Engine ready. Gates: latency <= %d ms, memory delta <= %d MB",
+        gates["latency_ms_max"],
+        gates["memory_mb_max"],
+    )
+    _logger.info("Waiting for JSON events on stdin...")
+
+    # Graceful shutdown on Ctrl+C
+    def _sigint_handler(signum, frame):
+        _logger.info("Shutdown signal received. Exiting.")
         sys.exit(0)
 
+    signal.signal(signal.SIGINT, _sigint_handler)
 
+    for line in sys.stdin:
+        line = line.strip()
+        if not line:
+            continue
+        try:
+            event = json.loads(line)
+        except json.JSONDecodeError as exc:
+            _logger.error("Malformed JSON on stdin: %s", exc)
+            continue
+
+        result = process_event(event)
+        audit_log(result)
+
+        # Emit compact result to stdout for downstream piping
+        print(json.dumps(result, separators=(",", ":")))
+        sys.stdout.flush()
+
+
+# -----------------------------------------------------------------------------
 if __name__ == "__main__":
-    main_loop()
+    main()

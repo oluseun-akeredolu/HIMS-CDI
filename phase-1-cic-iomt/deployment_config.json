@@ -12,7 +12,7 @@
   },
   "input": {
     "source_type": "stdin",
-    "note": "Production: replace with kafka or pcap_directory. See README."
+    "note": "Production: replace with kafka or pcap_directory"
   },
   "output": {
     "local_log_dir": "/app/logs",
@@ -37,5 +37,11 @@
     "frozen_at_utc": "2026-08-14T06:00:37+00:00"
   },
   "git_commit": "184fd92",
-  "git_tag": "v1.2.2"
+  "git_tag": "v1.2.2",
+  "frozen_artifact_path": "artifacts/frozen_model_real.joblib",
+  "manifest_path": "artifacts/frozen_model_real.manifest.json",
+  "log_dir": "logs",
+  "log_level": "INFO",
+  "log_rotation_mb": 100,
+  "retention_days": 30
 }

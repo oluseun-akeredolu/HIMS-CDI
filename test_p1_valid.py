@@ -1,0 +1,1 @@
+import sys; sys.path.insert(0,r"phase-1-cic-iomt/src"); sys.path.insert(0,r"phase-1-cic-iomt/scripts"); from csra.streaming_engine import initialize, process_event; initialize(); e={"event_id":"test-good"}; [e.update({str(i):0.0}) for i in range(45)]; r=process_event(e); print("RESULT:",r); print("PASS" if isinstance(r,float) else "FAIL")
