@@ -250,6 +250,8 @@ def audit_log(result: dict):
     }
     record.update(result)
     _audit_logger.info(json.dumps(record, separators=(",", ":")))
+    for h in _audit_logger.handlers:
+        h.flush()
 
 
 # -----------------------------------------------------------------------------
