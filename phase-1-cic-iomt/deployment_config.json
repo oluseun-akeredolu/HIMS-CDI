@@ -1,47 +1,12 @@
 {
-  "deployment_name": "HIMS-CDI Phase 1 Shadow Pilot",
-  "site": "Lewisham and Greenwich NHS Trust",
-  "dates": {
-    "start": "2026-10-01T00:00:00Z",
-    "end": "2026-10-31T23:59:59Z"
-  },
-  "model": {
-    "frozen_artifact_path": "/app/artifacts/frozen_model_real.joblib",
-    "manifest_path": "/app/artifacts/frozen_model_real.manifest.json",
-    "expected_sha256": "20bc89324c0c6f434e0151f23941ce070096fa367d66b56cf246a711aa35f40a"
-  },
-  "input": {
-    "source_type": "stdin",
-    "note": "Production: replace with kafka or pcap_directory"
-  },
-  "output": {
-    "local_log_dir": "/app/logs",
-    "allow_remote": false,
-    "allowed_endpoints": []
-  },
-  "governance_gates": {
-    "latency_ms_threshold": 200,
-    "memory_mb_threshold": 100,
-    "ece_drift_threshold": 0.02,
-    "fpr_per_device_per_day_threshold": 0.2
-  },
-  "logging": {
-    "level": "DEBUG",
-    "switch_to_info_after_hours": 24,
-    "log_rotation_mb": 100,
-    "retention_days": 30
-  },
-  "freeze_metadata": {
-    "git_tag": "pilot-deploy-v1.1.0",
-    "git_commit": "b9bad99",
-    "frozen_at_utc": "2026-08-14T06:00:37+00:00"
-  },
-  "git_commit": "184fd92",
-  "git_tag": "v1.2.2",
   "frozen_artifact_path": "artifacts/frozen_model_real.joblib",
   "manifest_path": "artifacts/frozen_model_real.manifest.json",
   "log_dir": "logs",
   "log_level": "INFO",
   "log_rotation_mb": 100,
-  "retention_days": 30
+  "retention_days": 30,
+  "governance_gates": {
+    "latency_ms_max": 200,
+    "memory_mb_max": 100
+  }
 }
