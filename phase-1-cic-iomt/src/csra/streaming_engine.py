@@ -130,7 +130,11 @@ def process_event(event_dict):
 
     # 1. Build the feature vector in the exact order the model expects
     feature_cols = _model_bundle["feature_cols"]
-    x = np.array([[event_dict.get(col, 0.0) for col in feature_cols]], dtype=np.float32)
+    missing = [col for col in feature_cols if col not in event_dict]
+        if missing:
+            logger.warning("Event %s missing features: %s. Refusing to score.", event_dict.get("event_id", "unknown"), missing)
+            return None
+        x = np.array([[event_dict[col] for col in feature_cols]], dtype=np.float32)
 
     # 2. Base classifier: turns features into a raw risk score
     clf = _model_bundle["classifier"]
