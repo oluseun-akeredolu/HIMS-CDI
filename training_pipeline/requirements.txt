@@ -1,0 +1,36 @@
+# HIMS-CDI Training Pipeline — exact library versions
+#
+# Install with: pip install -r requirements.txt
+#
+# These versions match the S22 supplementary PDF's stated environment
+# (Python 3.11.8, scikit-learn 1.3.0). If your original code used different
+# versions, update this file to match what you actually used.
+
+# Core scientific stack
+numpy>=1.24,<2.0
+pandas>=2.0,<3.0
+scipy>=1.10,<2.0
+scikit-learn>=1.3,<1.4
+
+# Deep learning (uncomment the one you used)
+# torch>=2.0,<3.0          # if your GNN/Transformer is PyTorch
+# tensorflow>=2.13,<3.0    # if your GNN/Transformer is TensorFlow
+
+# Calibration
+# scikit-learn's CalibratedClassifierCV is used for Platt scaling — no extra dep
+
+# Measurement
+memory-profiler>=0.61
+psutil>=5.9
+
+# ONNX export (for the Raspberry Pi deployment)
+onnx>=1.14
+onnxruntime>=1.15
+
+# Hyperparameter search (uncomment if you used one)
+# optuna>=3.3
+# ray[tune]>=2.7
+
+# Utilities
+pyyaml>=6.0
+tqdm>=4.65
