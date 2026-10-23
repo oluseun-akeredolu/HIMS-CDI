@@ -6,8 +6,8 @@ Runs each model on each of the 10 seeds, computes per-seed metrics, runs the
 10,000-resample bootstrap per seed, pools via Rubin's rules, and produces:
     - per_seed_predictions.csv   (Item 2)
     - bootstrap_ci.json          (Item 3)
-    - table5.csv                  (manuscript Table 5 — resource usage)
-    - table7.csv                  (manuscript Table 7 — classification metrics)
+    - table5_resource_usage.csv                  (manuscript Table 5 — resource usage)
+    - table7_classification.csv                  (manuscript Table 7 — classification metrics)
     - workstation_resource_usage.csv (Item 4a)
 
 Reports the ACTUAL numbers — no reverse-engineering to hit specific values.
@@ -134,7 +134,7 @@ def main():
     parser.add_argument('--config', default='configs/seeds.yaml')
     parser.add_argument('--models', nargs='+', default=None,
                         help='Specific models to train (default: all)')
-    parser.add_argument('--bootstrap-samples', type=int, default=1000,
+    parser.add_argument('--bootstrap-samples', type=int, default=10000,
                         help='Bootstrap resamples per seed (default 1000 for speed; '
                              'manuscript used 10000)')
     parser.add_argument('--verbose', action='store_true')
@@ -229,7 +229,7 @@ def main():
             'inference_memory_mb': ['mean', 'std'],
             'training_time_s': ['mean', 'std'],
         }).round(2)
-        table5_path = os.path.join(args.output, 'table5.csv')
+        table5_path = os.path.join(args.output, 'table5_resource_usage.csv')
         table5.to_csv(table5_path)
         print(f'Saved: {table5_path}')
 
@@ -262,27 +262,13 @@ def main():
             sens = tp / (tp + fn) if (tp + fn) else 0.0
             spec = tn / (tn + fp) if (tn + fp) else 0.0
 
-            # CDI and CCR (mean across predictions on the test set)
-            cdi_mean = test['CDI'].mean()
-            ccr_mean = test['CCR'].mean()
-
-            # Edge feasibility (using stored noisy values)
-            latency_mean = test['latency_ms'].mean()
-            memory_mean = test['memory_mb'].mean()
-            edge_feasible = (latency_mean < 200) and (memory_mean < 100)
-
-            # Gate satisfaction
-            cdi_pass = (test['CDI'] >= 0.70).mean()
-            ccr_pass = (test['CCR'] >= 0.80).mean()
-            lat_pass = (test['latency_ms'] < 200).mean()
-            mem_pass = (test['memory_mb'] < 100).mean()
-            all_gates = ((test['CDI'] >= 0.70) & (test['CCR'] >= 0.80) &
-                         (test['latency_ms'] < 200) & (test['memory_mb'] < 100)).mean()
-
             # Bootstrap CI (from pool_per_seed_metrics)
             auroc_ci = bootstrap_ci.get(model_name, {}).get('auroc', {})
             macro_f1_ci = bootstrap_ci.get(model_name, {}).get('macro_f1', {})
 
+            # Table 7 (classification) contains ONLY classification metrics.
+            # Gate satisfaction and resource measurements are reported in
+            # separate files (gate_satisfaction.csv and table5_resource_usage.csv).
             table7_rows.append({
                 'model': model_name,
                 'macro_f1': macro_f1,
@@ -293,17 +279,48 @@ def main():
                 'auroc_ci_high': auroc_ci.get('ci_high'),
                 'sensitivity': sens,
                 'specificity': spec,
-                'latency_ms_mean': latency_mean,
-                'memory_mb_mean': memory_mean,
-                'cdi_mean': cdi_mean,
-                'ccr_mean': ccr_mean,
-                'all_gates_pass_rate': all_gates,
+                'threshold': 0.5,
             })
 
         table7 = pd.DataFrame(table7_rows).round(4)
-        table7_path = os.path.join(args.output, 'table7.csv')
+        table7_path = os.path.join(args.output, 'table7_classification.csv')
         table7.to_csv(table7_path, index=False)
         print(f'Saved: {table7_path}')
+
+    
+    # ---- Save gate satisfaction (case-level, not model-specific) ----
+    gate_data = pd.DataFrame({
+        'test_case_id': np.arange(len(test)),
+        'CDI': test['CDI'].values,
+        'CCR': test['CCR'].values,
+        'latency_ms': test['latency_ms'].values,
+        'memory_mb': test['memory_mb'].values,
+        'CDI_pass': (test['CDI'] >= 0.70).values,
+        'CCR_pass': (test['CCR'] >= 0.80).values,
+        'latency_pass': (test['latency_ms'] < 200).values,
+        'memory_pass': (test['memory_mb'] < 100).values,
+        'all_gates_pass': ((test['CDI'] >= 0.70) & (test['CCR'] >= 0.80) &
+                           (test['latency_ms'] < 200) & (test['memory_mb'] < 100)).values,
+    })
+    gate_path = os.path.join(args.output, 'gate_satisfaction.csv')
+    gate_data.to_csv(gate_path, index=False)
+    print(f'Saved: {gate_path} ({len(gate_data)} rows)')
+
+    # Report gate outcomes
+    print(f'\n=== Gate satisfaction (case-level, n={len(test)}) ===')
+    print(f'  CDI >= 0.70:      {gate_data["CDI_pass"].sum()}/{len(test)} ({gate_data["CDI_pass"].mean()*100:.1f}%)')
+    print(f'  CCR >= 0.80:      {gate_data["CCR_pass"].sum()}/{len(test)} ({gate_data["CCR_pass"].mean()*100:.1f}%)')
+    print(f'  latency < 200 ms: {gate_data["latency_pass"].sum()}/{len(test)} ({gate_data["latency_pass"].mean()*100:.1f}%)')
+    print(f'  memory < 100 MB:  {gate_data["memory_pass"].sum()}/{len(test)} ({gate_data["memory_pass"].mean()*100:.1f}%)')
+    print(f'  ALL gates:        {gate_data["all_gates_pass"].sum()}/{len(test)} ({gate_data["all_gates_pass"].mean()*100:.1f}%)')
+    print(f'  Mean CDI: {test["CDI"].mean():.4f} (threshold 0.70) -> {"PASS" if test["CDI"].mean() >= 0.70 else "FAIL"}')
+    print(f'  Mean CCR: {test["CCR"].mean():.4f} (threshold 0.80) -> {"PASS" if test["CCR"].mean() >= 0.80 else "FAIL"}')
+    print(f'  Mean latency: {test["latency_ms"].mean():.2f} ms (threshold 200) -> {"PASS" if test["latency_ms"].mean() < 200 else "FAIL"}')
+    print(f'  Mean memory: {test["memory_mb"].mean():.2f} MB (threshold 100) -> {"PASS" if test["memory_mb"].mean() < 100 else "FAIL"}')
+    all_mean = (test['CDI'].mean() >= 0.70 and test['CCR'].mean() >= 0.80 and
+                test['latency_ms'].mean() < 200 and test['memory_mb'].mean() < 100)
+    print(f'  ALL gates on mean: {"PASS" if all_mean else "FAIL — CCR gate fails"}')
+
 
     # ---- Summary ----
     print(f'\n=== Pipeline complete ===')
@@ -314,9 +331,9 @@ def main():
         print(f'  workstation_resource_usage.csv ({len(all_resource)} rows)')
     print(f'  bootstrap_ci.json')
     if all_resource:
-        print(f'  table5.csv')
+        print(f'  table5_resource_usage.csv')
     if all_predictions:
-        print(f'  table7.csv')
+        print(f'  table7_classification.csv')
 
     # Print a summary of the actual numbers
     print(f'\n=== Actual numbers (no reverse-engineering) ===')

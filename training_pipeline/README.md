@@ -1,7 +1,16 @@
 # HIMS-CDI Training Pipeline
 
-This directory contains the 10-seed training pipeline that produces Tables 5 and 7
-of the manuscript. It is the artefact required by manuscript Appendix F item 1.
+This directory contains the 10-seed training pipeline that produces the
+classification metrics, gate satisfaction data, and resource measurements
+reported in the manuscript.
+
+## Reference implementation notice
+
+This is a **reference implementation** using standard published architectures
+(Kipf & Welling 2017 for the GNN; Vaswani et al. 2017 for the Transformer).
+It is NOT a reproduction of the authors' original research code, which was
+not deposited. The reproduced numbers differ from the manuscript's previously-
+reported values, which came from the original code.
 
 ## Quick start
 
@@ -9,96 +18,63 @@ of the manuscript. It is the artefact required by manuscript Appendix F item 1.
 # 1. Install dependencies
 pip install -r requirements.txt
 
-# 2. Download the v1.3.1 archive (or use a local copy)
-# See: https://zenodo.org/records/23565580
-# Required files: synthetic_train.csv, synthetic_val.csv, synthetic_test.csv,
-#                 correlation_matrix.csv (for the generator if regenerating)
+# 2. Download the v1.3.1 archive from Zenodo (DOI 10.5281/zenodo.23565580)
+#    or use a local copy. Required files:
+#    synthetic_train.csv, synthetic_val.csv, synthetic_test.csv
 
 # 3. Run the full 10-seed pipeline
 python run_training.py \
-    --archive-dir /path/to/v1.3.1_archive \
-    --seeds 13 37 73 101 211 421 563 719 881 997 \
-    --output results/
+    --archive-dir /path/to/zenodo_data \
+    --config configs/seeds.yaml \
+    --output results/ \
+    --bootstrap-samples 10000
 
 # 4. Outputs (in results/):
-#    - per_seed_predictions.csv       (Item 2 — 480 rows, 10 seeds × 48 test cases)
-#    - bootstrap_ci.json              (Item 3 — 95% CIs for all metrics)
-#    - table5.csv                     (per-model resource usage, matches manuscript Table 5)
-#    - table7.csv                     (per-model classification metrics, matches manuscript Table 7)
-#    - workstation_resource_usage.csv (Item 4a — per-seed latency/memory/training time)
+#    - per_seed_predictions.csv       (4,320 rows = 9 models x 10 seeds x 48 test cases)
+#    - bootstrap_ci.json              (pooled 95% CIs via Rubin's rules)
+#    - table5_resource_usage.csv      (per-model, per-seed resource measurements)
+#    - table7_classification.csv      (per-model classification metrics)
+#    - gate_satisfaction.csv          (case-level gate pass/fail for the test set)
+#    - workstation_resource_usage.csv (per-seed latency/memory/training time)
 ```
 
-## Directory structure
+## Expected outputs
 
-```
-training_pipeline/
-├── README.md                    ← this file
-├── requirements.txt              ← exact library versions
-├── run_training.py               ← main entry point (10-seed loop)
-├── models/
-│   ├── __init__.py
-│   ├── gnn.py                    ← TODO: paste your GNN architecture (hidden=64, lr=1e-3)
-│   ├── transformer.py            ← TODO: paste your Transformer architecture (hidden=512, lr=3e-5)
-│   ├── edge_aware_fusion.py      ← TODO: paste your Edge-Aware fusion with pruning (compression=0.5)
-│   ├── mlr_platt.py              ← TODO: paste your MLR with Platt scaling (HIMS-CDI_cal)
-│   └── baselines.py              ← TODO: paste equal_weights, rule_based, checklist
-├── bootstrap/
-│   ├── __init__.py
-│   └── rubin_pooling.py          ← Rubin's rules implementation (provided, ready to use)
-├── measurement/
-│   ├── __init__.py
-│   ├── workstation_measure.py    ← TODO: paste your workstation measurement code
-│   └── pi_measure.py             ← TODO: paste your Raspberry Pi measurement code
-├── calibration/
-│   ├── __init__.py
-│   └── platt_scaling.py         ← Platt scaling with ECE computation (provided, ready to use)
-├── configs/
-│   └── seeds.yaml                ← the 10 seeds and their RNG states
-└── results/                       ← output directory (created on first run)
-```
+| File | Rows | Description |
+|------|------|-------------|
+| `per_seed_predictions.csv` | 4,320 | 9 models × 10 seeds × 48 test cases |
+| `bootstrap_ci.json` | — | Pooled 95% CIs for AUROC and macro F1 |
+| `table7_classification.csv` | 9 | Per-model AUROC, macro F1, sensitivity, specificity |
+| `gate_satisfaction.csv` | 48 | Per-case gate pass/fail (CDI, CCR, latency, memory) |
+| `table5_resource_usage.csv` | — | Per-model, per-seed resource measurements |
+| `workstation_resource_usage.csv` | 90 | Per-model, per-seed raw measurements |
 
-## What you need to fill in (TODO markers)
+## Separation of evidence
 
-The following files contain `# TODO:` markers showing where you need to paste your
-original research code. Search for `TODO` to find them:
+The pipeline produces three distinct types of evidence, reported in separate files:
 
-- `models/gnn.py` — your GNN architecture (PyTorch or TensorFlow)
-- `models/transformer.py` — your Transformer architecture
-- `models/edge_aware_fusion.py` — your Edge-Aware fusion model with pruning
-- `models/mlr_platt.py` — your MLR training + Platt scaling wrapper
-- `models/baselines.py` — your equal_weights, rule_based, checklist baselines
-- `measurement/workstation_measure.py` — your workstation resource measurement code
-- `measurement/pi_measure.py` — your Raspberry Pi deployment code (ONNX Runtime, INT8)
+1. **Classification metrics** (`table7_classification.csv`): AUROC, macro F1,
+   sensitivity, specificity — computed from the model's predicted probabilities.
+2. **Case-level gate satisfaction** (`gate_satisfaction.csv`): whether each of
+   the 48 test cases passes each governance gate. This is a property of the
+   synthetic cases, NOT of any particular model.
+3. **Model-specific resource measurements** (`table5_resource_usage.csv`):
+   latency, memory, and training time — measured per model, per seed.
 
-The following files are provided complete (no TODOs):
+These three types of evidence must NOT be conflated. The manuscript must report
+each in its own table and draw conclusions from the appropriate source.
 
-- `run_training.py` — the 10-seed loop, bootstrap pooling, table generation
-- `bootstrap/rubin_pooling.py` — Rubin's rules implementation
-- `calibration/platt_scaling.py` — Platt scaling with ECE computation
-- `configs/seeds.yaml` — the 10 seeds and their configuration
+## Configuration
 
-## Verification
-
-After running the pipeline, verify the outputs match the manuscript:
-
-```bash
-python verify_outputs.py --results-dir results/ --manuscript-values manuscript_table5_table7.json
-```
-
-This script checks that:
-- `table5.csv` matches manuscript Table 5 within 5% tolerance per cell
-- `table7.csv` matches manuscript Table 7 within 5% tolerance per cell
-- `bootstrap_ci.json` produces 95% CI [0.72, 0.78] for AUROC (or wider, in which case
-  the manuscript needs to be updated to match the wider CI)
-- `per_seed_predictions.csv` has 480 rows with the expected schema
+The 10 seeds, hyperparameters, and bootstrap settings are in `configs/seeds.yaml`.
 
 ## Reproducibility notes
 
-- The 10 seeds (13, 37, 73, 101, 211, 421, 563, 719, 881, 997) come from
-  `supplementary_Material/Supplementary Material S4/S4_resource_usage.csv`
-  in the GitHub repository.
-- The 10,000-resample bootstrap per seed (100,000 total) follows the procedure
-  documented in manuscript Section 4.5.
-- Rubin's rules pooling follows Rubin (1987).
-- Resource measurements use the S14 protocol (50 warm-up passes, 100 timed passes,
-  memory_profiler for peak memory).
+- Seeds: 13, 37, 73, 101, 211, 421, 563, 719, 881, 997
+- Bootstrap: 10,000 resamples per seed (pooled via Rubin's rules)
+- The GNN implementation uses self-loop adjacency (A = I), making it effectively
+  an MLP with GCN-style message passing. For a 4-feature tabular dataset without
+  graph structure, this is the standard adaptation. The manuscript should describe
+  it as a GCN-style tabular baseline, not as a graph model with substantive edges.
+- The Transformer uses hidden_size=128 (the manuscript reports 512; 128 is used
+  here because 512 was too slow on CPU for a 4-feature dataset).
