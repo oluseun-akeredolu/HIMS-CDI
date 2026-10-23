@@ -1,0 +1,23 @@
+{
+  "manuscript_version": "v9.3",
+  "dataset_doi": "10.5281/zenodo.23565580",
+  "training_pipeline_doi": "10.5281/zenodo.23586311",
+  "code_repository": "https://github.com/oluseun-akeredolu/HIMS-CDI",
+  "python_version": "3.12.15",
+  "torch_version": "2.14.1+cpu",
+  "numpy_version": "2.1.3",
+  "pandas_version": "2.2.3",
+  "scipy_version": "1.14.1",
+  "scikit_learn_version": "1.5.2",
+  "model_training_seeds": [13, 37, 73, 101, 211, 421, 563, 719, 881, 997],
+  "classification_threshold": 0.50,
+  "bootstrap_method": "stratified_case_bootstrap_on_ensemble_probabilities",
+  "n_bootstrap_resamples": 10000,
+  "bootstrap_seed": 42,
+  "n_models": 9,
+  "n_seeds": 10,
+  "n_test_cases": 48,
+  "expected_prediction_rows": 4320,
+  "gate_logic_tests": "15 passed",
+  "run_status": "VERIFIED"
+}

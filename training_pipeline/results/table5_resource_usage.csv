@@ -1,12 +1,91 @@
-,inference_latency_ms,inference_latency_ms,inference_memory_mb,inference_memory_mb,training_time_s,training_time_s
-,mean,std,mean,std,mean,std
-model,,,,,,
-Checklist,0.01,0.0,458.04,0.12,0.0,0.0
-Edge_Aware_Fusion,0.05,0.0,446.03,0.0,0.58,0.01
-Edge_Aware_Fusion_opt,0.17,0.14,446.49,0.0,0.72,0.04
-Equal_Weights,0.01,0.0,330.66,0.0,0.0,0.0
-GNN,0.06,0.01,415.95,0.1,0.7,0.02
-HIMS_CDI_base,0.06,0.0,450.91,1.96,0.0,0.0
-HIMS_CDI_cal,0.96,0.1,456.25,1.7,0.04,0.0
-Rule_Based,0.01,0.0,330.66,0.0,0.0,0.0
-Transformer,2.58,0.19,444.56,2.27,11.29,0.56
+model,seed,inference_latency_ms,inference_latency_std_ms,inference_memory_mb,measurement_protocol,training_time_s
+Equal_Weights,13,0.010300730001517877,0.0020149754653896682,334.078125,"batch predict_proba on 48 cases, max sampled Python-process RSS",9.249999948224286e-07
+Equal_Weights,37,0.009800449996646421,0.0010836180709208963,334.078125,"batch predict_proba on 48 cases, max sampled Python-process RSS",1.2589999869305757e-06
+Equal_Weights,73,0.009712630006788459,0.0011774354531234985,334.078125,"batch predict_proba on 48 cases, max sampled Python-process RSS",7.749999895168003e-07
+Equal_Weights,101,0.009671480001998134,0.000815320201177094,334.078125,"batch predict_proba on 48 cases, max sampled Python-process RSS",6.34999992144003e-07
+Equal_Weights,211,0.010096010005327116,0.003722416720850056,334.078125,"batch predict_proba on 48 cases, max sampled Python-process RSS",7.2900002123788e-07
+Equal_Weights,421,0.009786900005792631,0.0013497368386608086,334.078125,"batch predict_proba on 48 cases, max sampled Python-process RSS",6.499999471998308e-07
+Equal_Weights,563,0.009668849995705386,0.001114795028053702,334.078125,"batch predict_proba on 48 cases, max sampled Python-process RSS",5.990000317979138e-07
+Equal_Weights,719,0.010294909991444001,0.0038262866004774468,334.078125,"batch predict_proba on 48 cases, max sampled Python-process RSS",6.299999313341687e-07
+Equal_Weights,881,0.010261020007646948,0.003441343726030649,334.078125,"batch predict_proba on 48 cases, max sampled Python-process RSS",8.429999525105814e-07
+Equal_Weights,997,0.009854790001782021,0.001398549512345574,334.078125,"batch predict_proba on 48 cases, max sampled Python-process RSS",6.380000741046388e-07
+Rule_Based,13,0.007839540000986744,0.002259065500050422,335.34765625,"batch predict_proba on 48 cases, max sampled Python-process RSS",1.97000008483883e-06
+Rule_Based,37,0.007815549997758353,0.0011771393818499499,335.34765625,"batch predict_proba on 48 cases, max sampled Python-process RSS",1.2099999366910197e-06
+Rule_Based,73,0.007729639999070059,0.0005294452452343644,335.34765625,"batch predict_proba on 48 cases, max sampled Python-process RSS",9.949999366654083e-07
+Rule_Based,101,0.007799719999184163,0.0014077556796701415,335.34765625,"batch predict_proba on 48 cases, max sampled Python-process RSS",6.899999789311551e-07
+Rule_Based,211,0.008153910004011777,0.0026949618254025823,335.34765625,"batch predict_proba on 48 cases, max sampled Python-process RSS",9.179999551633955e-07
+Rule_Based,421,0.00793416000419711,0.001438848320938206,335.34765625,"batch predict_proba on 48 cases, max sampled Python-process RSS",9.98000018626044e-07
+Rule_Based,563,0.0076043000069603295,0.001076069515649047,335.34765625,"batch predict_proba on 48 cases, max sampled Python-process RSS",8.170000000973232e-07
+Rule_Based,719,0.007736610003803435,0.0011631656793747137,335.34765625,"batch predict_proba on 48 cases, max sampled Python-process RSS",7.070000265230192e-07
+Rule_Based,881,0.007827410001937096,0.0015667919642684876,335.34765625,"batch predict_proba on 48 cases, max sampled Python-process RSS",7.389999154838733e-07
+Rule_Based,997,0.007935869999755596,0.003090410837343801,335.34765625,"batch predict_proba on 48 cases, max sampled Python-process RSS",7.050000476738205e-07
+GCN_style_tabular,13,0.06240426000090338,0.0075842664396894325,413.921875,"batch predict_proba on 48 cases, max sampled Python-process RSS",2.5553056869999864
+GCN_style_tabular,37,0.06442474999971637,0.01223460894651251,415.28515625,"batch predict_proba on 48 cases, max sampled Python-process RSS",0.17571667600009278
+GCN_style_tabular,73,0.06070225999565082,0.006701883302002179,415.54296875,"batch predict_proba on 48 cases, max sampled Python-process RSS",0.12397216299996217
+GCN_style_tabular,101,0.06200595000905196,0.007593576654546943,415.54296875,"batch predict_proba on 48 cases, max sampled Python-process RSS",0.06298694100007651
+GCN_style_tabular,211,0.06094225999504488,0.008067899233631189,415.54296875,"batch predict_proba on 48 cases, max sampled Python-process RSS",0.30644717199993465
+GCN_style_tabular,421,0.34558500000002823,2.787014421887451,415.54296875,"batch predict_proba on 48 cases, max sampled Python-process RSS",0.20136677499999678
+GCN_style_tabular,563,0.06112731000257554,0.007106828893605096,415.54296875,"batch predict_proba on 48 cases, max sampled Python-process RSS",0.10554316399998243
+GCN_style_tabular,719,0.06044914000312929,0.008048611571526355,415.54296875,"batch predict_proba on 48 cases, max sampled Python-process RSS",0.24707700200008276
+GCN_style_tabular,881,0.06030560999192858,0.006459493582271838,415.54296875,"batch predict_proba on 48 cases, max sampled Python-process RSS",0.048895989000016016
+GCN_style_tabular,997,0.33164321000981545,2.690956617356897,415.54296875,"batch predict_proba on 48 cases, max sampled Python-process RSS",0.5922364840000682
+Transformer,13,2.798269719999098,4.550366605603349,444.2265625,"batch predict_proba on 48 cases, max sampled Python-process RSS",4.113280917999987
+Transformer,37,2.9046767100044235,4.540651303042723,446.23046875,"batch predict_proba on 48 cases, max sampled Python-process RSS",3.287142890000041
+Transformer,73,2.7646503100027076,4.01826210690987,447.91796875,"batch predict_proba on 48 cases, max sampled Python-process RSS",4.045196197999985
+Transformer,101,2.866165299989234,4.504226109101673,441.1328125,"batch predict_proba on 48 cases, max sampled Python-process RSS",3.8711669849999453
+Transformer,211,2.330555039995943,3.7178731844288078,444.15234375,"batch predict_proba on 48 cases, max sampled Python-process RSS",4.1338391599999795
+Transformer,421,2.6156027800084303,4.536075210899636,446.94921875,"batch predict_proba on 48 cases, max sampled Python-process RSS",3.174508801999991
+Transformer,563,2.6580012200031433,4.526442663550954,449.34375,"batch predict_proba on 48 cases, max sampled Python-process RSS",5.819126159999996
+Transformer,719,2.7374256199982483,4.659249482610996,441.125,"batch predict_proba on 48 cases, max sampled Python-process RSS",5.532591837000041
+Transformer,881,2.4506667399998605,3.833691228612601,448.34765625,"batch predict_proba on 48 cases, max sampled Python-process RSS",4.237305312999979
+Transformer,997,2.8429675500001395,4.756812015197463,445.2578125,"batch predict_proba on 48 cases, max sampled Python-process RSS",4.568298432000006
+Edge_Aware_Fusion,13,0.04978877999405995,0.006297012507140891,450.609375,"batch predict_proba on 48 cases, max sampled Python-process RSS",0.2485493959999303
+Edge_Aware_Fusion,37,0.05047598000601283,0.009685553785284086,450.609375,"batch predict_proba on 48 cases, max sampled Python-process RSS",0.09039589700000761
+Edge_Aware_Fusion,73,0.049693049999177674,0.005993451974319517,450.609375,"batch predict_proba on 48 cases, max sampled Python-process RSS",0.3852240979999806
+Edge_Aware_Fusion,101,0.050025599997525205,0.006170567956457768,450.609375,"batch predict_proba on 48 cases, max sampled Python-process RSS",0.30852317200003654
+Edge_Aware_Fusion,211,0.050347269998383126,0.007026356228164213,450.609375,"batch predict_proba on 48 cases, max sampled Python-process RSS",0.0924852009999313
+Edge_Aware_Fusion,421,0.04944072000284905,0.0062567082584547755,450.609375,"batch predict_proba on 48 cases, max sampled Python-process RSS",0.11377921799999058
+Edge_Aware_Fusion,563,0.05145649999803936,0.01972724298767512,450.609375,"batch predict_proba on 48 cases, max sampled Python-process RSS",0.08657067299998289
+Edge_Aware_Fusion,719,0.04999503000135519,0.010051746000121774,450.609375,"batch predict_proba on 48 cases, max sampled Python-process RSS",0.5755818459999773
+Edge_Aware_Fusion,881,0.04937114000085785,0.006233526508783465,450.609375,"batch predict_proba on 48 cases, max sampled Python-process RSS",0.4911901720000742
+Edge_Aware_Fusion,997,0.04942246999462441,0.006842461000874853,450.609375,"batch predict_proba on 48 cases, max sampled Python-process RSS",0.6012839329999906
+Edge_Aware_Fusion_opt,13,0.08313931000770935,0.01725211696879156,455.98046875,"batch predict_proba on 48 cases, max sampled Python-process RSS",0.25669444599998315
+Edge_Aware_Fusion_opt,37,0.06423546999485552,0.00884317926750252,455.98046875,"batch predict_proba on 48 cases, max sampled Python-process RSS",0.10261811099996976
+Edge_Aware_Fusion_opt,73,0.06477359000200522,0.009585541940503964,455.98046875,"batch predict_proba on 48 cases, max sampled Python-process RSS",0.3890641589999859
+Edge_Aware_Fusion_opt,101,0.0671262000025763,0.010300399699407756,455.98046875,"batch predict_proba on 48 cases, max sampled Python-process RSS",0.4104523030000564
+Edge_Aware_Fusion_opt,211,0.0647120299947801,0.008136392410559658,455.98046875,"batch predict_proba on 48 cases, max sampled Python-process RSS",0.09912129500003175
+Edge_Aware_Fusion_opt,421,0.06509577000201716,0.010140013868304728,455.98046875,"batch predict_proba on 48 cases, max sampled Python-process RSS",0.10787563500002761
+Edge_Aware_Fusion_opt,563,0.06460783999955311,0.011552341950739571,455.98046875,"batch predict_proba on 48 cases, max sampled Python-process RSS",0.088800347000074
+Edge_Aware_Fusion_opt,719,0.34195827999724315,2.70252930031404,455.98046875,"batch predict_proba on 48 cases, max sampled Python-process RSS",0.525931059999948
+Edge_Aware_Fusion_opt,881,0.06435716000510183,0.00948829363074886,455.98046875,"batch predict_proba on 48 cases, max sampled Python-process RSS",0.4446907819999524
+Edge_Aware_Fusion_opt,997,0.06378134000215141,0.007919444893056035,455.98046875,"batch predict_proba on 48 cases, max sampled Python-process RSS",0.5964775429999918
+HIMS_CDI_base,13,0.06492398999739635,0.004496747877777774,456.23046875,"batch predict_proba on 48 cases, max sampled Python-process RSS",0.006158513999935167
+HIMS_CDI_base,37,0.06589044000065769,0.00546399887421305,456.23046875,"batch predict_proba on 48 cases, max sampled Python-process RSS",0.004727448000039658
+HIMS_CDI_base,73,0.06544759000007616,0.005333083332102366,456.23046875,"batch predict_proba on 48 cases, max sampled Python-process RSS",0.004650262000041039
+HIMS_CDI_base,101,0.0633976599988273,0.004859921351584046,456.23046875,"batch predict_proba on 48 cases, max sampled Python-process RSS",0.0047618439999723705
+HIMS_CDI_base,211,0.06444824999903176,0.005187611414542323,456.23046875,"batch predict_proba on 48 cases, max sampled Python-process RSS",0.004660804999957691
+HIMS_CDI_base,421,0.06459946999939348,0.004754308022770884,456.23046875,"batch predict_proba on 48 cases, max sampled Python-process RSS",0.004690602999971816
+HIMS_CDI_base,563,0.0631188499903601,0.004182963354928441,456.23046875,"batch predict_proba on 48 cases, max sampled Python-process RSS",0.004466276000016478
+HIMS_CDI_base,719,0.06490168000027552,0.004733969584915254,456.23046875,"batch predict_proba on 48 cases, max sampled Python-process RSS",0.004660774000058154
+HIMS_CDI_base,881,0.0656725400074265,0.004770612376257322,456.23046875,"batch predict_proba on 48 cases, max sampled Python-process RSS",0.004504857000029006
+HIMS_CDI_base,997,0.0646871499975532,0.005032556747308694,456.23046875,"batch predict_proba on 48 cases, max sampled Python-process RSS",0.004510343999982069
+HIMS_CDI_cal,13,0.9155558399959318,0.05154066392047807,458.23046875,"batch predict_proba on 48 cases, max sampled Python-process RSS",0.0363112509999155
+HIMS_CDI_cal,37,0.9006952099946375,0.02930245881364097,458.23046875,"batch predict_proba on 48 cases, max sampled Python-process RSS",0.035502479000001586
+HIMS_CDI_cal,73,0.924141049993068,0.0373175596380822,458.23046875,"batch predict_proba on 48 cases, max sampled Python-process RSS",0.035271934999968835
+HIMS_CDI_cal,101,0.9054497000045103,0.02180794192084693,458.23046875,"batch predict_proba on 48 cases, max sampled Python-process RSS",0.035540149999974346
+HIMS_CDI_cal,211,0.8956352900065667,0.01832733411107023,458.23046875,"batch predict_proba on 48 cases, max sampled Python-process RSS",0.03529762599998776
+HIMS_CDI_cal,421,0.9110288700014735,0.029880582392664713,458.23046875,"batch predict_proba on 48 cases, max sampled Python-process RSS",0.035148259999914444
+HIMS_CDI_cal,563,0.9099130700008118,0.024885745192785844,458.23046875,"batch predict_proba on 48 cases, max sampled Python-process RSS",0.03521598499992251
+HIMS_CDI_cal,719,0.909543210003676,0.03631299969086495,458.23046875,"batch predict_proba on 48 cases, max sampled Python-process RSS",0.03522536699995271
+HIMS_CDI_cal,881,0.917767790004973,0.040355467948326486,458.23046875,"batch predict_proba on 48 cases, max sampled Python-process RSS",0.03506570799993369
+HIMS_CDI_cal,997,0.9185519700031364,0.026518701926518895,458.23046875,"batch predict_proba on 48 cases, max sampled Python-process RSS",0.03566561500008447
+Checklist,13,0.006103889998030354,0.0011722954956063015,458.8984375,"batch predict_proba on 48 cases, max sampled Python-process RSS",2.2820000822321163e-06
+Checklist,37,0.0059619200044380705,0.00042041343136883005,458.8984375,"batch predict_proba on 48 cases, max sampled Python-process RSS",2.6209999077764223e-06
+Checklist,73,0.005859349993215801,0.00039089385971290217,458.8984375,"batch predict_proba on 48 cases, max sampled Python-process RSS",8.130000423989259e-07
+Checklist,101,0.006004639996035621,0.0011472324483789169,458.8984375,"batch predict_proba on 48 cases, max sampled Python-process RSS",7.78000071477436e-07
+Checklist,211,0.006181539996532592,0.001367958105975521,458.8984375,"batch predict_proba on 48 cases, max sampled Python-process RSS",7.559999630757375e-07
+Checklist,421,0.0059418400110189395,0.001001176580203312,458.8984375,"batch predict_proba on 48 cases, max sampled Python-process RSS",6.74000034450728e-07
+Checklist,563,0.006029389998047918,0.000823230421938534,458.8984375,"batch predict_proba on 48 cases, max sampled Python-process RSS",8.690000186106772e-07
+Checklist,719,0.006252840004208338,0.0033087576137885897,458.8984375,"batch predict_proba on 48 cases, max sampled Python-process RSS",8.819999948173063e-07
+Checklist,881,0.006144609999410022,0.001424211554162244,458.8984375,"batch predict_proba on 48 cases, max sampled Python-process RSS",8.800000159681076e-07
+Checklist,997,0.006028379999634126,0.0010945608638664368,458.8984375,"batch predict_proba on 48 cases, max sampled Python-process RSS",1.463999979023356e-06
