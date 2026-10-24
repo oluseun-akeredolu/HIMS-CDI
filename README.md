@@ -1,32 +1,31 @@
-
 # HIMS-CDI: Healthcare Cyber Situational Risk Assessment
 
-Research artefacts for the HIMS-CDI governance-first architecture (Akeredolu et al.).
+This repository contains the reproducibility artefact for the manuscript:
+**HIMS-CDI: A Governance Specification and Assurance Architecture for CTI-Driven Cybersecurity Risk Assessment in Healthcare**
+
+## Canonical Source of Record
+The exact code, data splits, and model artifacts used in the manuscript have been archived on Zenodo:
+- **Archive DOI:** [10.5281/zenodo.23615735](https://doi.org/10.5281/zenodo.23615735) (v1.5.3)
+- **Source Branch:** `v9.6-final-audit`
+- **Note:** The `main` branch may contain updates or separate project lines. The Zenodo archive is the immutable canonical source for the published paper.
 
 ## Repository Structure
 
-- **`phase-1-cic-iomt/`** — Phase 1 empirical reproducibility package.
-  Reproducible data processing and fusion calibration pipeline for the **CIC IoMT 2024** dataset.
-  Contains scripts, calibration utilities, frozen artefacts, Dockerfile, and deployment config.
-  See [`phase-1-cic-iomt/README.md`](phase-1-cic-iomt/README.md) for usage instructions.
+- **`training_pipeline/`** — The core synthetic Phase I evaluation pipeline for the HIMS-CDI manuscript.
+  - Includes the shared governance gate function (`governance_gates.py`), the 31-test automated suite, and the strengthened verifier (`verify_outputs.py`).
+  - See the README in this directory for instructions on running the 10-seed evaluation.
 
-- **Root package (`src/hims_cdi/`, `setup.py`)** — Legacy synthetic-data scoring utilities
-  for the earlier HIMS-CDI specification validation (multinomial logistic regression baselines).
-  These are **not** the subject of the Phase 1 empirical manuscript.
+- **`phase-1-cic-iomt/`** — A separate empirical reproducibility package for the **CIC IoMT 2024** dataset. This is a companion study and is **not** the subject of the HIMS-CDI manuscript.
 
-## Phase 1 Reproducibility
+## Environment
+The canonical run environment is documented in `run_environment.json` within the Zenodo archive (Python 3.12, PyTorch 2.14.1+cpu).
 
-The Phase 1 pipeline is released under **Apache License 2.0** and archived on Zenodo:
+## Citation
+If you use the HIMS-CDI architecture or the synthetic pipeline, please cite:
+> Akeredolu, O., Epiphaniou, G., & Maple, C. (2026). HIMS-CDI: A Governance Specification and Assurance Architecture for CTI-Driven Cybersecurity Risk Assessment in Healthcare. *Computers & Security* (under review).
 
-- **GitHub:** `https://github.com/oluseun-akeredolu/HIMS-CDI/tree/main/phase-1-cic-iomt`
-- **Zenodo:** `https://doi.org/10.5281/zenodo.21955259`
-
-### Citation
-
-If you use the Phase 1 pipeline or the CIC IoMT 2024 dataset, please cite:
-
-&gt; Dadkhah, S., Pinto Neto, E. C., Ferreira, R., Molokwu, R. C., Sadeghi, S., & Ghorbani, A. A. (2024). *CICIoMT2024: A benchmark dataset for multi-protocol security assessment in IoMT*. **Internet of Things, 28**, 101351.
+For the CIC IoMT 2024 dataset, please cite:
+> Dadkhah, S., et al. (2024). CICIoMT2024: A benchmark dataset for multi-protocol security assessment in IoT. *Internet of Things, 28*, 101351.
 
 ## License
-
 Apache License 2.0
