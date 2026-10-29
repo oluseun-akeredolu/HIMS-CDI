@@ -18,7 +18,7 @@
 | `supplementary_files/File S4 - Data_Extraction_Database.zip` | 13,898 bytes | `58af06e3f8f89549e5555f844d4d0a0d56529999` |
 | `supplementary_files/File S7 - Included_Studies_Table.zip` | 44,331 bytes | `d4861a2e197831632af76db57ad99bade054c815` |
 
-The SHA-1 values above are Git blob IDs, not SHA-256 digests of the ZIP bytes. The attached single-run Windows script retrieves the two ZIPs from the exact observed `main` commit, verifies the Git blob ID and size, computes SHA-256, and runs the read-only parser. If download, blob hash, size, parsing, or row-level matching fails, the result is reported as blocked/failed and must not be called a verified crosswalk.
+The SHA-1 values above are Git blob IDs, not SHA-256 digests of the ZIP bytes. The repository also provides `tools/recover_verify_s4_s7_v0.2.16.ps1`, a read-only Windows helper that retrieves the two ZIPs from a pinned `main` commit, verifies the Git blob ID and size, and records SHA-256. The companion v0.2.16 implementation package supplies the broader one-run workflow and S4/S7 parser. If download, blob hash, size, parsing, or row-level matching fails, the result is reported as blocked/failed and must not be called a verified crosswalk.
 
 ## Evidence limits
 
