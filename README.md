@@ -1,55 +1,53 @@
 # HIMS-CDI: Healthcare Cyber Situational Risk Assessment
 
-This repository contains multiple historical and current project lines. A manuscript claim must be tied to a versioned package, its code and configuration, generated outputs, tests, and matching checksums—not inferred from a repository-level DOI alone.
+This repository contains several historical and current artefact lines. Every manuscript result must be tied to the exact code, configuration, inputs, outputs, environment, tests and file manifest that produced it. A repository-level DOI is not, by itself, proof of that linkage.
 
-## Current manuscript candidate: v0.2.16 (working / NO-GO for submission)
+## Current working manuscript candidate: v0.2.17 — NO-GO
 
-The current working manuscript uses the synthetic evaluation package `PhaseI_Synthetic_Evaluation_v0.2.9.zip`. A bounded local rerun on 29 October 2026 generated 240 synthetic environments and 7,200 simulated execution records; 15 environments passed all four governance gates; the package verification suite reported 33/33 checks passing. An independent rerun in the revision workspace reproduced 14 listed analysis/data files byte-for-byte; the manifest differed only in its `created_at_utc` value. The package SHA-256 manifest contained 21 entries, all matching.
+The current working manuscript candidate (v0.2.17) reports results from the local package `PhaseI_Synthetic_Evaluation_v0.2.9.zip`.
 
-These checks establish local reproducibility of the specified synthetic package only. They do not establish real-world healthcare cyber-risk reduction, clinical safety, legal compliance, live CTI utility, deployment effectiveness, or external replication.
+The bounded rerun completed on **30 October 2026**:
+- 240 synthetic environments and 7,200 simulated execution records;
+- 15/240 environments (6.25%) passed all four conjunctive governance gates;
+- 1,296/7,200 execution records (18.00%) had at least one resource-threshold exceedance;
+- the full-input logistic-regression comparator had mean balanced accuracy 0.803556 (sample SD 0.026896) across ten repeated cross-validation runs. Because synthetic labels are generated from the declared rule and the comparator receives features derived from gate components, this is a rule-recovery diagnostic—not independent predictive validation.
+- all 14 deterministic generated output/data files matched the packaged counterparts byte-for-byte; all 21 SHA-256 manifest entries and all 33 packaged verification checks passed.
 
-**The exact v0.2.9 package supporting this manuscript candidate has not yet been deposited under a verified public archive DOI.** Do not cite the historical archive below as the source of these exact results without a version-to-version file, configuration, generator, output and checksum comparison.
+The regenerated `manifest.json` differs from the archived manifest in **two environment-metadata fields**: `created_at_utc` and `runtime.platform`. The latter changed from `Linux-6.18.55-x86_64-with-glibc2.41` to `Linux-6.18.57-x86_64-with-glibc2.41`. The exact local package ZIP SHA-256 is `b0052e38da33b5733dcfb4b829a5472f4d15a109a8a67d6df7b053aa8ca5bafe`.
 
-## Historical archive — Zenodo v1.5.3
+These checks establish bounded local reproducibility of this specific synthetic package. They do not establish clinical safety, healthcare incident prediction, legal compliance, live CTI exchange, external replication, operational effectiveness or real-world deployment readiness. The historical generator and claimed empirical dependence matrix were not recovered; v0.2.9 is a new, explicitly specified simulation, not a reconstruction of the earlier experiment.
 
-- **Historical DOI:** [10.5281/zenodo.23615735](https://doi.org/10.5281/zenodo.23615735)
-- Preserve this DOI and its files as a historical record. Do not overwrite, repurpose or silently relabel it as the current v0.2.9 package.
-- The original `main` README had described the archive as canonical for the manuscript. That claim was broader than the presently verified lineage and is the subject of the open draft pull request.
-- The former source-branch label `v9.6-final-audit` was not found in the branch listing checked on 29 October 2026. A branch name is not adequate provenance unless resolved to an authenticated commit SHA or archived manifest.
+**The exact v0.2.9 package has not yet been verified in a version-specific public archive. Do not cite an older Zenodo DOI as the source of these exact results.**
+
+## Separate public artefact records
+
+- **Zenodo 10.5281/zenodo.23615735 (v1.5.3):** preserve as a historical archive. The older root README mapped this record to the manuscript's canonical code/data and named `v9.6-final-audit` as its source branch. That broad linkage is not established for the current v0.2.9 package. The branch name was not present in the branch listing inspected on 29 October 2026.
+- **Zenodo 10.5281/zenodo.23624050 (v1.5.4):** a separate training-pipeline release candidate; its deposited filename includes `release_candidate`. Its record description says “three” gates while listing four threshold clauses (CDI, CCR, latency and memory). Treat the predicate as four gates and correct the record description only in a new version after the archive is rechecked. Do not present this record as the v0.2.9 deposit.
+- **Zenodo 10.5281/zenodo.23550335 (v1.3.0):** a separate synthetic-data/generator release, with its own correlation matrix, generator and train/validation/test data. Its description also says “three” non-compensatory gates but lists four criteria. The matching corpus size does not prove identity with v0.2.9.
+- **`training_pipeline/`:** a separate 10-seed reference pipeline. Its own README states that it is not a reproduction of the authors' original research code and that its reproduced results differ from earlier manuscript values. Do not attribute these pipeline outputs to v0.2.17 without a complete file- and run-level provenance comparison.
+- **`phase-1-cic-iomt/`:** a separate CIC IoMT 2024 companion-study line, not the v0.2.9 synthetic experiment.
 
 ## S4/S7 public GitHub snapshot (metadata only)
 
-At the current `main` snapshot inspected on 29 October 2026 (commit `2bdee992ec086fb021ff40727a78ba3c5d6e7d73`), the repository tree listed:
-
+At the `main` snapshot inspected on 29 October 2026 (commit `2bdee992ec086fb021ff40727a78ba3c5d6e7d73`), the tree listed:
 - `supplementary_files/File S4 - Data_Extraction_Database.zip`: 13,898 bytes; Git blob SHA-1 `58af06e3f8f89549e5555f844d4d0a0d56529999`.
 - `supplementary_files/File S7 - Included_Studies_Table.zip`: 44,331 bytes; Git blob SHA-1 `d4861a2e197831632af76db57ad99bade054c815`.
 
-These are Git object identifiers and sizes, not SHA-256 file digests. The actual archive bytes must be downloaded at the pinned commit, recomputed and checked before a current-source crosswalk is treated as verified. A current GitHub archive is not automatically identical to the archive originally used in the published review.
-
-## Repository structure and scope
-
-- **`training_pipeline/`** — a separate 10-seed reference training pipeline. Its README explicitly says it is not a reproduction of the authors' original research code, and warns that the reproduced numbers differ from prior manuscript values. Do not treat it as the source of the 240-environment / 7,200-record v0.2.9 synthetic simulation unless a file-level comparison proves that relationship.
-- **`phase-1-cic-iomt/`** — a separate companion-study package for the CIC IoMT 2024 dataset; it is not the current synthetic HIMS-CDI v0.2.9 study.
-- **S4/S7 evidence review** — a literal GDPR/HIPAA mention is not evidence that a safeguard was implemented. The 8/43 diagnostic and historical 9/43 reported finding are not accepted as verified safeguard-prevalence estimates until the original coding definition, source passages and independent adjudication are recovered.
+These are Git blob object IDs and sizes, not SHA-256 digests of the downloaded ZIP bytes, and they do not prove equivalence to the files used in the published review. Download at a pinned commit and verify bytes, then complete the row-level, source-passage crosswalk. The 8/43 literal-mention diagnostic and historical 9/43 reported figure are both withdrawn as verified safeguard-prevalence estimates pending predeclared coding and adjudication.
 
 ## Release and registration policy
 
-Before a public release/DOI is associated with v0.2.16 or its supporting code:
+1. Freeze the precise code, configuration, dependencies, inputs, outputs, tests and manifest.
+2. Obtain all-author approval and create a distinct version-specific archive without changing historical records.
+3. Download the new deposit back and verify the complete manifest and SHA-256 hashes.
+4. Re-run the deposited package in a documented clean environment.
+5. Insert the exact DOI only after the download-back and reproduction checks pass.
+6. Authenticate OSF project and registration records, dates and version history directly. Never backdate, overwrite or silently alter registration history.
 
-1. Freeze the precise generator, configuration, dependencies, inputs, outputs and test results.
-2. Create a **new, distinct, version-specific** archive; preserve all historical records.
-3. Download the deposited archive back and compare its complete file manifest and SHA-256 checksums.
-4. Confirm the deposited archive reproduces the reported figures using a documented, independent rerun.
-5. Only then add that exact DOI to the manuscript and data-availability statement.
+## Status
 
-OSF project and registration identifiers must be treated as distinct records. Their dates, history, and registration status must be authenticated from the records themselves. Do not backdate, overwrite, or silently modify a registration.
+The v0.2.17 manuscript and this draft pull request remain **NO-GO for submission/release**. The working revision is not a certification of journal eligibility or acceptance.
 
-Until these release gates pass, the current package should be described as locally reproducible with its public deposit pending. The current manuscript and this draft PR remain **not submission-ready**.
+## Citation and licence
 
-## Citation
-
-Cite the HIMS-CDI manuscript according to its verified publication status and use a version-specific citation for each released artifact. For the separate CIC IoMT 2024 dataset, cite the dataset's own canonical publication and record.
-
-## License
-
-Apache License 2.0
+Cite each manuscript and software/data artefact according to its verified publication status and exact version. The separate CIC IoMT 2024 package must be cited using its own canonical record. Confirm the applicable licence and all contributors' approvals before a new deposit.
