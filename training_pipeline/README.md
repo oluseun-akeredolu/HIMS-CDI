@@ -1,80 +1,40 @@
-# HIMS-CDI Training Pipeline
+# HIMS-CDI Training Pipeline — separate 10-seed reference implementation
 
-This directory contains the 10-seed training pipeline that produces the
-classification metrics, gate satisfaction data, and resource measurements
-reported in the manuscript.
+## Scope and non-equivalence notice
 
-## Reference implementation notice
+This directory contains a 10-seed reference training pipeline for a separate synthetic model-comparison experiment. It is **not** the source package for the v0.2.17 manuscript's Phase I v0.2.9 four-gate simulation unless a full, version-controlled file/input/configuration/output comparison establishes that relationship.
 
-This is a **reference implementation** using standard published architectures
-(Kipf & Welling 2017 for the GNN; Vaswani et al. 2017 for the Transformer).
-It is NOT a reproduction of the authors' original research code, which was
-not deposited. The reproduced numbers differ from the manuscript's previously-
-reported values, which came from the original code.
+This is a **reference implementation**, not a reproduction of the authors' original research code, which was not deposited. Its reproduced numbers differ from previously reported manuscript values. Do not cite its metrics as if they were reproduced outputs of the original manuscript or the v0.2.9 specification simulation.
+
+The pipeline documentation describes nine candidate models, 10 seeds and 48 test cases per seed. It produces classification metrics, case-level gate decisions and model-specific resource measurements. Keep these three evidence classes separate. The README alone does not verify their statistical validity or prove that all reported metrics match the current manuscript.
 
 ## Quick start
 
+The historical instructions below identify Zenodo DOI `10.5281/zenodo.23565580` as the data dependency. Confirm the exact DOI record, version and required files before executing or citing the pipeline; do not substitute the v0.2.9 package or another historical dataset.
+
 ```bash
-# 1. Install dependencies
 pip install -r requirements.txt
-
-# 2. Download the v1.3.1 archive from Zenodo (DOI 10.5281/zenodo.23565580)
-#    or use a local copy. Required files:
-#    synthetic_train.csv, synthetic_val.csv, synthetic_test.csv
-
-# 3. Run the full 10-seed pipeline
 python run_training.py \
-    --archive-dir /path/to/zenodo_data \
+    --archive-dir /path/to/verified_data_archive \
     --config configs/seeds.yaml \
     --output results/ \
     --bootstrap-samples 10000
-
-# 4. Outputs (in results/):
-#    - per_seed_predictions.csv       (4,320 rows = 9 models x 10 seeds x 48 test cases)
-#    - bootstrap_ci.json              (pooled 95% CIs via Rubin's rules)
-#    - table5_resource_usage.csv      (per-model, per-seed resource measurements)
-#    - table7_classification.csv      (per-model classification metrics)
-#    - gate_satisfaction.csv          (case-level gate pass/fail for the test set)
-#    - workstation_resource_usage.csv (per-seed latency/memory/training time)
 ```
 
-## Expected outputs
+Expected artefacts are `per_seed_predictions.csv`, `bootstrap_ci.json`, `table5_resource_usage.csv`, `table7_classification.csv`, `gate_satisfaction.csv` and `workstation_resource_usage.csv`. Check the actual output schema and row counts against the exact code version before reporting.
 
-| File | Rows | Description |
-|------|------|-------------|
-| `per_seed_predictions.csv` | 4,320 | 9 models × 10 seeds × 48 test cases |
-| `bootstrap_ci.json` | — | Pooled 95% CIs for AUROC and macro F1 |
-| `table7_classification.csv` | 9 | Per-model AUROC, macro F1, sensitivity, specificity |
-| `gate_satisfaction.csv` | 48 | Per-case gate pass/fail (CDI, CCR, latency, memory) |
-| `table5_resource_usage.csv` | — | Per-model, per-seed resource measurements |
-| `workstation_resource_usage.csv` | 90 | Per-model, per-seed raw measurements |
+## Evidence separation
 
-## Separation of evidence
+1. **Classification metrics** are computed from predicted probabilities.
+2. **Case-level gate satisfaction** is a property of the synthetic cases, not of a particular model.
+3. **Model-specific resource measurements** are measurements from the declared run protocol and must not be conflated with the gate status of the cases.
 
-The pipeline produces three distinct types of evidence, reported in separate files:
+## Architecture notes
 
-1. **Classification metrics** (`table7_classification.csv`): AUROC, macro F1,
-   sensitivity, specificity — computed from the model's predicted probabilities.
-2. **Case-level gate satisfaction** (`gate_satisfaction.csv`): whether each of
-   the 48 test cases passes each governance gate. This is a property of the
-   synthetic cases, NOT of any particular model.
-3. **Model-specific resource measurements** (`table5_resource_usage.csv`):
-   latency, memory, and training time — measured per model, per seed.
+- The GNN implementation uses self-loop adjacency (`A = I`); it is effectively an MLP with GCN-style message passing on a four-feature tabular input. Describe it as a GCN-style tabular baseline, not as a graph model with substantive edges.
+- The Transformer implementation uses `hidden_size=128`; prior manuscript text reported 512. The code's actual configuration takes precedence for describing this reference implementation, and the difference must be explicitly reconciled before any related number is cited.
+- The seeds and bootstrap settings are recorded in `configs/seeds.yaml`. Re-run from a clean environment and inspect `run_manifest.json` before making reproducibility claims.
 
-These three types of evidence must NOT be conflated. The manuscript must report
-each in its own table and draw conclusions from the appropriate source.
+## Relationship to current manuscript
 
-## Configuration
-
-The 10 seeds, hyperparameters, and bootstrap settings are in `configs/seeds.yaml`.
-
-## Reproducibility notes
-
-- Seeds: 13, 37, 73, 101, 211, 421, 563, 719, 881, 997
-- Bootstrap: 10,000 resamples per seed (pooled via Rubin's rules)
-- The GNN implementation uses self-loop adjacency (A = I), making it effectively
-  an MLP with GCN-style message passing. For a 4-feature tabular dataset without
-  graph structure, this is the standard adaptation. The manuscript should describe
-  it as a GCN-style tabular baseline, not as a graph model with substantive edges.
-- The Transformer uses hidden_size=128 (the manuscript reports 512; 128 is used
-  here because 512 was too slow on CPU for a 4-feature dataset).
+The current manuscript uses the separate package `PhaseI_Synthetic_Evaluation_v0.2.9.zip` (SHA-256 `b0052e38da33b5733dcfb4b829a5472f4d15a109a8a67d6df7b053aa8ca5bafe`). This README's 10-seed results, the Zenodo v1.5.4 release candidate, the v1.3.0 synthetic data archive and the v0.2.9 four-gate simulation are separate experiment/release lines. No cross-line numerical substitution is permitted without demonstrated equivalence.
