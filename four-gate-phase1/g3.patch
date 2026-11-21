@@ -1,0 +1,66 @@
+--- v0.2.23
++++ local_G3_candidate
+@@ -9,6 +9,7 @@
+ import argparse, csv, hashlib, json, math, platform, sys
+ from datetime import datetime, timezone
+ from pathlib import Path
++from numbers import Real
+ 
+ import numpy as np
+ import pandas as pd
+@@ -169,6 +170,21 @@
+             'known_scope_conflict':conflict}
+ 
+ 
++def resource_gate_state(latency_p95, memory_peak, latency_limit=200.0, memory_limit=100.0):
++    """Classify scalar telemetry using strict limits and documented evidence precedence."""
++    def valid(value):
++        return (isinstance(value, Real) and not isinstance(value, (bool, np.bool_))
++                and math.isfinite(value) and value >= 0)
++
++    latency_valid = valid(latency_p95)
++    memory_valid = valid(memory_peak)
++    if (latency_valid and latency_p95 >= latency_limit) or (memory_valid and memory_peak >= memory_limit):
++        return 'FAIL'
++    if not (latency_valid and memory_valid):
++        return 'UNKNOWN'
++    return 'PASS'
++
++
+ def run(output_dir: Path):
+     if output_dir.exists() and any(output_dir.iterdir()):
+         raise SystemExit(f"STOP: output directory is not empty: {output_dir}; nothing overwritten")
+@@ -271,7 +287,10 @@
+     resource_stats=resdf.set_index('environment_id')
+     observed_g1=clean_g1.copy()
+     observed_g2=np.array([conjunctive_status(observed_control_states[i,:]) for i in range(len(env_ids))])
+-    observed_g3=np.where((resdf['latency_p95_ms'].to_numpy()<200.0)&(resdf['memory_peak_mb'].to_numpy()<100.0),'PASS','FAIL')
++    observed_g3 = np.array([
++        resource_gate_state(latency, memory)
++        for latency, memory in zip(resdf['latency_p95_ms'], resdf['memory_peak_mb'])
++    ])
+     observed_g4=np.array([conjunctive_status(observed_req_states[i,:]) for i in range(len(env_ids))])
+     observed_eligible=np.array([eligible(observed_g1[i],observed_g2[i],observed_g3[i],observed_g4[i]) for i in range(len(env_ids))],dtype=bool)
+     rows=[]
+@@ -383,7 +402,10 @@
+     threshold_rows=[]
+     for lt in [150,175,200,250,300]:
+         for mt in [64,100,150,256]:
+-            pass_g3=(resdf['latency_p95_ms'].to_numpy()<lt)&(resdf['memory_peak_mb'].to_numpy()<mt)
++            pass_g3 = np.array([
++                resource_gate_state(latency, memory, lt, mt) == 'PASS'
++                for latency, memory in zip(resdf['latency_p95_ms'], resdf['memory_peak_mb'])
++            ])
+             count=sum((observed_g1=='PASS')&(observed_g2=='PASS')&pass_g3&(observed_g4=='PASS'))
+             threshold_rows.append({'latency_p95_limit_ms_strict':lt,'peak_memory_limit_mb_strict':mt,
+                                    'eligible_n':int(count),'eligible_fraction':float(count/len(env_ids))})
+@@ -528,7 +550,8 @@
+       'provenance_status':'new, explicitly specified candidate simulation; not the locked 19 October run',
+       'locked_rule_set_hash_recovered':False,
+       'parent_26_october_bundle_used_as_input':False,
+-      'generated_by':'phase1_newrun.py', 'generator_sha256':sha256_file(Path(__file__).resolve()),
++      'candidate_scope':'unpublished G3 input-handling candidate',
++      'generated_by':Path(__file__).name, 'generator_sha256':sha256_file(Path(__file__).resolve()),
+       'config':CONFIG,
+       'runtime':{'python':sys.version.split()[0],'platform':platform.platform(),'numpy':np.__version__,
+                  'pandas':pd.__version__,'scipy':scipy.__version__,'scikit_learn':sklearn.__version__},

@@ -1,0 +1,5 @@
+additional_degradation_probability_per_pass_item,eligible_n,eligible_fraction,g2_pass_n,g2_fail_n,g2_unknown_n,g4_pass_n,g4_fail_n,g4_unknown_n,unknown_to_eligible_conversions
+0.0,15,0.0625,73,59,108,133,70,37,0
+0.05,14,0.058333333333333334,56,59,125,126,70,44,0
+0.1,10,0.041666666666666664,44,59,137,121,70,49,0
+0.2,5,0.020833333333333332,24,59,157,99,70,71,0

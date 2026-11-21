@@ -1,0 +1,253 @@
+{
+  "config": {
+    "base_evidence_degradation": {
+      "missing": 0.05,
+      "stale": 0.05,
+      "unreviewed": 0.05
+    },
+    "copula_domain_assignments": {
+      "D1": [
+        "I01",
+        "I02",
+        "I03",
+        "I04"
+      ],
+      "D2": [
+        "I05",
+        "I06",
+        "I07",
+        "I08"
+      ],
+      "D3": [
+        "I09",
+        "I10",
+        "I11"
+      ],
+      "D4": [
+        "I12",
+        "I13",
+        "I14"
+      ],
+      "D5": [
+        "I15",
+        "I16",
+        "I17"
+      ],
+      "D6": [
+        "I18",
+        "I19",
+        "I20"
+      ]
+    },
+    "gaussian_copula": {
+      "construction": "factor model with one global factor plus six domain factors plus independent indicator noise",
+      "domain_factor_variance": 0.2,
+      "global_factor_variance": 0.05,
+      "idiosyncratic_variance": 0.75,
+      "implied_pairwise_correlations": {
+        "different_domains": 0.05,
+        "same_domain": 0.25
+      },
+      "psd_by_construction": true
+    },
+    "measurement_noise_lognormal_sigma": 0.15,
+    "model_domain_rating_assignments": {
+      "D1": [
+        "I01",
+        "I02",
+        "I03",
+        "I04"
+      ],
+      "D2": [
+        "I05",
+        "I06",
+        "I07",
+        "I08"
+      ],
+      "D3": [
+        "I09",
+        "I10",
+        "I11"
+      ],
+      "D4": [
+        "I12",
+        "I13",
+        "I14"
+      ],
+      "D5": [
+        "I15",
+        "I16",
+        "I17"
+      ],
+      "D6": [
+        "I18",
+        "I19",
+        "I20"
+      ]
+    },
+    "model_protocol": {
+      "equal_weight": "mean(D1-D6), divided by 5, fixed threshold 0.50",
+      "estimator": "StandardScaler + LogisticRegression(C=1.0, solver=lbfgs, max_iter=2000, class_weight=None)",
+      "evaluation": "10 repeats of stratified 5-fold cross-validation; same folds for all comparators",
+      "full_model_inputs": "one-hot status of G1 scope, six G2 controls, and two G4 requirements, plus latency p95 and peak memory; G3 is inferred from the raw resource values",
+      "operating_threshold": "fixed at 0.50 before evaluation; no validation- or held-out-informed threshold selection",
+      "oracle": "restate the observed rule-derived label; a tautological specification-identity check, not predictive evidence",
+      "restricted_model_inputs": "D1-D6 mean indicator ratings only",
+      "uncertainty_reporting": "mean, sample SD, minimum and maximum across ten CV repeats; split variability, not confidence intervals or independent external validation"
+    },
+    "n_controls": 6,
+    "n_environments": 240,
+    "n_indicators": 20,
+    "repetitions_per_environment": 30,
+    "run_id": "HIMS-CDI-PhaseI-candidate-UNKNOWN-fix-v0.2.23",
+    "runtime_thresholds": {
+      "latency_p95_ms_strictly_less_than": 200.0,
+      "peak_memory_mb_strictly_less_than": 100.0
+    },
+    "seeds": {
+      "cv_fold_seed": 46,
+      "dwell_time": 59,
+      "evidence_injection": 99,
+      "generation": 42,
+      "measurement_noise": 42,
+      "scope": 65
+    },
+    "status": "newly specified synthetic Phase I run; not a reproduction of the historical run",
+    "synthetic_rule_assumptions": {
+      "G1_scope_scenario": "Scope status is simulated from a fixed scenario distribution: PASS 90%, FAIL 5%, UNKNOWN 5%; this is an analyst-selected stress-test mix, not an empirical rate",
+      "G2_control_status": "Each of six measured control proxies I01-I06 is PASS when >= 0.05 and FAIL when < 0.05; evidence degradation may turn PASS into UNKNOWN",
+      "G3_runtime_status": "PASS only when measured p95 latency < 200 ms and maximum of 30 memory readings < 100 MB; any measured breach is FAIL",
+      "G4_other_requirements": "REQ-A uses I17 >= 0.15; REQ-B uses I18 >= 0.15; measured value below threshold is FAIL; evidence degradation may turn PASS into UNKNOWN",
+      "conjunctive_gate_precedence": "FAIL if any mandatory subcondition is FAIL; otherwise UNKNOWN if any subcondition is UNKNOWN; otherwise PASS",
+      "eligibility": "G1 PASS AND G2 PASS AND G3 PASS AND G4 PASS; FAIL or UNKNOWN on any gate is not eligible",
+      "evidence_injection": "For each PASS control or requirement item, missing/stale/unreviewed is injected with probability 0.05 each; FAIL states are unchanged",
+      "latency_baseline_ms": "clip(70 + 150*I19 + 20*I09 + 0.08*(dwell_days-62), 40, 280)",
+      "measurement_noise": "30 per-environment latency and memory readings with mean-corrected lognormal multiplicative noise sigma=0.15",
+      "memory_baseline_mb": "clip(30 + 45*I20 + 10*(1-I05) + 0.04*(dwell_days-62), 20, 95)",
+      "unknown_status": "UNKNOWN represents missing, stale, unreviewed, or unverifiable evidence; it is not used for a known numeric threshold failure"
+    }
+  },
+  "correlation": {
+    "max_eigenvalue": 2.439897948556636,
+    "min_eigenvalue": 0.7499999999999991,
+    "positive_semidefinite": true
+  },
+  "created_at_utc": "2026-11-17T04:45:18.735256+00:00",
+  "generated_by": "phase1_newrun.py",
+  "generator_sha256": "248ce691a51b563ab3f81e863c10ee1092a7bdce2ce3391dc6d115b7a673d913",
+  "limitations": [
+    "The 20x20 latent Gaussian-copula correlation matrix is newly specified by a factor model, not the manuscript-cited empirical matrix.",
+    "Scope-state distribution, indicator-to-control mapping, REQ-A/REQ-B thresholds, and synthetic latency/memory equations are newly specified assumptions; conclusions are limited to this specification.",
+    "All resource measurements are simulated, not Raspberry Pi 4 measurements.",
+    "No Phase II NHS pilot data or real-world gate validation are present; the pilot is uncompleted.",
+    "The generator does not ingest CTI events or implement the full CTI-to-evidence architecture; it evaluates a synthetic four-gate decision function under declared assumptions.",
+    "The 10 repeated CV runs reuse the same 240 synthetic environments; repeat-to-repeat SD describes split variability, not independent sampling uncertainty.",
+    "This package does not claim equality with or reconstruction of the 19 October 2026 run."
+  ],
+  "locked_rule_set_hash_recovered": false,
+  "metric_definitions": {
+    "auroc": "area under receiver operating characteristic curve using out-of-fold scores",
+    "average_precision": "precision-recall average precision using out-of-fold scores",
+    "balanced_accuracy": "(sensitivity + specificity) / 2",
+    "macro_f1": "arithmetic mean of positive-class and negative-class F1",
+    "oracle": "observed labels re-emitted as predictions; tautological identity check, not an independent comparator",
+    "repeated_cv_summary": "mean, sample SD, min, and max over 10 repeated stratified 5-fold evaluations; split variability, not a confidence interval"
+  },
+  "parent_26_october_bundle_used_as_input": false,
+  "provenance_status": "new, explicitly specified candidate simulation; not the locked 19 October run",
+  "run_id": "HIMS-CDI-PhaseI-candidate-UNKNOWN-fix-v0.2.23",
+  "runtime": {
+    "numpy": "2.3.5",
+    "pandas": "2.2.3",
+    "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+    "python": "3.12.14",
+    "scikit_learn": "1.8.0",
+    "scipy": "1.17.0"
+  },
+  "sha256_files": {
+    "config.json": "16929f018f8c0c9ab5523943c0a05f9dc76befffbed9901c9546bacbe15737d5",
+    "correlation_matrix.csv": "ebb724d6d33a35c1fbc54f3938143cbe462daa59c1b60b40561e85c02d565dab",
+    "cv_metrics_by_repeat.csv": "6a0a44c59a8d0b660177d3aa9d72c501263faec3a09c3edd9ae8ee50a4fc9265",
+    "cv_metrics_summary.csv": "cab82679665e386ceb812f68e946736c87bfc242d8ff00b5c7b2a27519479ca0",
+    "cv_oof_predictions.csv": "0f033d0adaf55a236a6b151abc96fa064bcba5b9d08bb120635877aca5a23823",
+    "decision_records.csv": "5118345749c3663569a5d9d750dac2143d0162f04744dc9b80d247341e8e0384",
+    "evidence_injection_sensitivity.csv": "f72f249d2a5d56970dac8e92b38872a45b8ac1881908cbd45af20f85ddb5441e",
+    "evidence_states.csv": "c57be371fa0572098a8847ca32f8f521109e459fd59966a853d4ffe2c902d9f7",
+    "execution_log.csv": "e5731151edc1caee5390fb0541d688a1ab7b2f5febf8febc5908d5307ffa90df",
+    "postgate_resources.csv": "65345b382c7d4a767169adfd22d22fe76900153d62be394c1b173a20b0500db6",
+    "summary_results.json": "675d04e52457f607d9630180b6bce559da125dfd86ca3ce5e3873c0ae5cf9bb4",
+    "threshold_sensitivity.csv": "dcbe22a3be293cbfad1726c0c89348cd4763440ca0d35ab6c65c3ad614ea7427",
+    "verification.txt": "0b7e1354fe1a8b843b09805a35c82b0551dc3512534c20c00bed703991408252",
+    "verification_checks.csv": "795dd4aa2a3c34d6d5645efb0205e1be15771959da3959279d15bd702b372fc0"
+  },
+  "summary_results": {
+    "all_execution_pass_env_n": 107,
+    "any_exceedance_fraction": 0.18,
+    "any_exceedance_n": 1296,
+    "both_exceedance_n": 5,
+    "class_counts": {
+      "observed_negative": 225,
+      "observed_positive": 15
+    },
+    "correlation_min_eigenvalue": 0.7499999999999991,
+    "cross_validation": {
+      "folds_per_repeat": 5,
+      "negative_n": 225,
+      "positive_n": 15,
+      "repeats": 10,
+      "threshold": 0.5
+    },
+    "dominance_unordered_pairs": 39,
+    "full_exceedance_env_n": 0,
+    "g1_pass_n": 213,
+    "g2_pass_n": 73,
+    "g3_pass_n": 127,
+    "g4_pass_n": 133,
+    "gate_state_counts": {
+      "G1": {
+        "FAIL": 16,
+        "PASS": 213,
+        "UNKNOWN": 11
+      },
+      "G2": {
+        "FAIL": 59,
+        "PASS": 73,
+        "UNKNOWN": 108
+      },
+      "G3": {
+        "FAIL": 113,
+        "PASS": 127,
+        "UNKNOWN": 0
+      },
+      "G4": {
+        "FAIL": 70,
+        "PASS": 133,
+        "UNKNOWN": 37
+      }
+    },
+    "interpretation": "Candidate new-run outputs generated from newly declared factor model and rules; not a reproduction of the 19 October locked run.",
+    "latency_exceedance_fraction": 0.17694444444444443,
+    "latency_exceedances_n": 1274,
+    "memory_exceedance_fraction": 0.00375,
+    "memory_exceedances_n": 27,
+    "n_environments": 240,
+    "n_execution_rows": 7200,
+    "observed_eligible_n": 15,
+    "observed_only_positive_n": 0,
+    "oracle_eligible_n": 96,
+    "oracle_observed_agreement_fraction": 0.6625,
+    "oracle_observed_agreement_n": 159,
+    "oracle_only_positive_n": 81,
+    "partial_exceedance_env_n": 133,
+    "postgate_candidate_n": 15,
+    "run_id": "HIMS-CDI-PhaseI-candidate-UNKNOWN-fix-v0.2.23",
+    "scope_scenario_rates": {
+      "FAIL": 0.05,
+      "PASS": 0.9,
+      "UNKNOWN": 0.05,
+      "basis": "analyst-selected synthetic scenario, not empirical rates"
+    }
+  },
+  "verification_passed": 37,
+  "verification_total": 37
+}

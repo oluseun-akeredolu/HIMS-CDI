@@ -1,0 +1,43 @@
+{
+  "type": "bundle",
+  "id": "bundle--c421a44a-2b11-4e32-8bb5-550a5f7c3edc",
+  "objects": [
+    {
+      "type": "identity",
+      "spec_version": "2.1",
+      "id": "identity--fca39a73-4183-4c5b-a9a4-de5f80d595dd",
+      "created": "2026-11-16T09:00:00.000Z",
+      "modified": "2026-11-16T09:00:00.000Z",
+      "name": "Demonstration sharing organisation",
+      "identity_class": "organization"
+    },
+    {
+      "type": "marking-definition",
+      "spec_version": "2.1",
+      "id": "marking-definition--2f1c8c18-3db6-4867-887a-f1368aeda357",
+      "created": "2026-11-16T09:00:00.000Z",
+      "definition_type": "statement",
+      "definition": {
+        "statement": "Demonstration authorised recipients only."
+      }
+    },
+    {
+      "type": "indicator",
+      "spec_version": "2.1",
+      "id": "indicator--7457d383-3375-48e6-92bc-e59ec198c98f",
+      "created": "2026-11-16T09:00:00.000Z",
+      "modified": "2026-11-17T09:00:00.000Z",
+      "created_by_ref": "identity--fca39a73-4183-4c5b-a9a4-de5f80d595dd",
+      "object_marking_refs": [
+        "marking-definition--2f1c8c18-3db6-4867-887a-f1368aeda357"
+      ],
+      "name": "Synthetic patient-portal observation",
+      "pattern": "[domain-name:value = 'portal.invalid']",
+      "pattern_type": "stix",
+      "pattern_version": "2.1",
+      "valid_from": "2026-11-16T09:00:00.000Z",
+      "valid_until": "2026-11-17T15:00:00.000Z",
+      "revoked": true
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "assessment_id": "DOC-CAPIO-MAMMO-01",
+  "assessment_type": "Author-side mapping of public documentation",
+  "source": "https://doi.org/10.1186/s12913-025-13176-9",
+  "decision": "Assess the public evidence for use of software supporting replacement of the second reader in population mammography screening.",
+  "inputs": {
+    "G1": {"state": "UNKNOWN", "source_location": "Methods, Empirical setting, research design, analytical framework", "observed": "The public article identifies the facility, screening population and second-reader workflow.", "needed": "Locally approved applicability, scope decision and versioned control registry."},
+    "G2": {"state": "UNKNOWN", "source_location": "Results, Technology risks and IT security compliance", "observed": "The study reports cybersecurity concerns and recommends evaluating security risk.", "needed": "Approved applicable controls and verified, current evidence of their satisfaction."},
+    "G3": {"state": "UNKNOWN", "source_location": "Results, Operational risks", "observed": "The report identifies workflow delays and AI availability as concerns.", "needed": "Locally approved latency and memory requirements and measurements on the configured workload and platform."},
+    "G4": {"state": "UNKNOWN", "source_location": "Results, Legal/regulatory risks and Internal communication measures", "observed": "The paper identifies responsibility concerns and proposes a workflow flag for patient-reported symptoms.", "needed": "Determination of additional mandatory requirements and approved evidence of satisfaction, including applicable fallback or continuity controls."}
+  },
+  "expected_disposition": "UNRESOLVED",
+  "interpretation": "This state describes the public evidence packet. Local records and independent adjudication are needed for a deployment assessment."
+}

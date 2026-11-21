@@ -1,0 +1,128 @@
+{
+  "base_evidence_degradation": {
+    "missing": 0.05,
+    "stale": 0.05,
+    "unreviewed": 0.05
+  },
+  "copula_domain_assignments": {
+    "D1": [
+      "I01",
+      "I02",
+      "I03",
+      "I04"
+    ],
+    "D2": [
+      "I05",
+      "I06",
+      "I07",
+      "I08"
+    ],
+    "D3": [
+      "I09",
+      "I10",
+      "I11"
+    ],
+    "D4": [
+      "I12",
+      "I13",
+      "I14"
+    ],
+    "D5": [
+      "I15",
+      "I16",
+      "I17"
+    ],
+    "D6": [
+      "I18",
+      "I19",
+      "I20"
+    ]
+  },
+  "gaussian_copula": {
+    "construction": "factor model with one global factor plus six domain factors plus independent indicator noise",
+    "domain_factor_variance": 0.2,
+    "global_factor_variance": 0.05,
+    "idiosyncratic_variance": 0.75,
+    "implied_pairwise_correlations": {
+      "different_domains": 0.05,
+      "same_domain": 0.25
+    },
+    "psd_by_construction": true
+  },
+  "measurement_noise_lognormal_sigma": 0.15,
+  "model_domain_rating_assignments": {
+    "D1": [
+      "I01",
+      "I02",
+      "I03",
+      "I04"
+    ],
+    "D2": [
+      "I05",
+      "I06",
+      "I07",
+      "I08"
+    ],
+    "D3": [
+      "I09",
+      "I10",
+      "I11"
+    ],
+    "D4": [
+      "I12",
+      "I13",
+      "I14"
+    ],
+    "D5": [
+      "I15",
+      "I16",
+      "I17"
+    ],
+    "D6": [
+      "I18",
+      "I19",
+      "I20"
+    ]
+  },
+  "model_protocol": {
+    "equal_weight": "mean(D1-D6), divided by 5, fixed threshold 0.50",
+    "estimator": "StandardScaler + LogisticRegression(C=1.0, solver=lbfgs, max_iter=2000, class_weight=None)",
+    "evaluation": "10 repeats of stratified 5-fold cross-validation; same folds for all comparators",
+    "full_model_inputs": "one-hot status of G1 scope, six G2 controls, and two G4 requirements, plus latency p95 and peak memory; G3 is inferred from the raw resource values",
+    "operating_threshold": "fixed at 0.50 before evaluation; no validation- or held-out-informed threshold selection",
+    "oracle": "restate the observed rule-derived label; a tautological specification-identity check, not predictive evidence",
+    "restricted_model_inputs": "D1-D6 mean indicator ratings only",
+    "uncertainty_reporting": "mean, sample SD, minimum and maximum across ten CV repeats; split variability, not confidence intervals or independent external validation"
+  },
+  "n_controls": 6,
+  "n_environments": 240,
+  "n_indicators": 20,
+  "repetitions_per_environment": 30,
+  "run_id": "HIMS-CDI-PhaseI-candidate-UNKNOWN-fix-v0.2.23",
+  "runtime_thresholds": {
+    "latency_p95_ms_strictly_less_than": 200.0,
+    "peak_memory_mb_strictly_less_than": 100.0
+  },
+  "seeds": {
+    "cv_fold_seed": 46,
+    "dwell_time": 59,
+    "evidence_injection": 99,
+    "generation": 42,
+    "measurement_noise": 42,
+    "scope": 65
+  },
+  "status": "newly specified synthetic Phase I run; not a reproduction of the historical run",
+  "synthetic_rule_assumptions": {
+    "G1_scope_scenario": "Scope status is simulated from a fixed scenario distribution: PASS 90%, FAIL 5%, UNKNOWN 5%; this is an analyst-selected stress-test mix, not an empirical rate",
+    "G2_control_status": "Each of six measured control proxies I01-I06 is PASS when >= 0.05 and FAIL when < 0.05; evidence degradation may turn PASS into UNKNOWN",
+    "G3_runtime_status": "PASS only when measured p95 latency < 200 ms and maximum of 30 memory readings < 100 MB; any measured breach is FAIL",
+    "G4_other_requirements": "REQ-A uses I17 >= 0.15; REQ-B uses I18 >= 0.15; measured value below threshold is FAIL; evidence degradation may turn PASS into UNKNOWN",
+    "conjunctive_gate_precedence": "FAIL if any mandatory subcondition is FAIL; otherwise UNKNOWN if any subcondition is UNKNOWN; otherwise PASS",
+    "eligibility": "G1 PASS AND G2 PASS AND G3 PASS AND G4 PASS; FAIL or UNKNOWN on any gate is not eligible",
+    "evidence_injection": "For each PASS control or requirement item, missing/stale/unreviewed is injected with probability 0.05 each; FAIL states are unchanged",
+    "latency_baseline_ms": "clip(70 + 150*I19 + 20*I09 + 0.08*(dwell_days-62), 40, 280)",
+    "measurement_noise": "30 per-environment latency and memory readings with mean-corrected lognormal multiplicative noise sigma=0.15",
+    "memory_baseline_mb": "clip(30 + 45*I20 + 10*(1-I05) + 0.04*(dwell_days-62), 20, 95)",
+    "unknown_status": "UNKNOWN represents missing, stale, unreviewed, or unverifiable evidence; it is not used for a known numeric threshold failure"
+  }
+}

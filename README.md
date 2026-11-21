@@ -1,3 +1,9 @@
+# Four-gate Phase I REVIEW BRANCH (COSE-D-26-03217)
+
+The corrected study source and reported synthetic data are under `four-gate-phase1/` and in the draft release assets. The historical Zenodo CDI/CCR version is NOT the source of these results. This is an unmerged review branch, not independently validated healthcare software.
+
+---
+
 # HIMS-CDI: Healthcare Cyber Situational Risk Assessment
 
 This repository contains the reproducibility artefact for the manuscript:

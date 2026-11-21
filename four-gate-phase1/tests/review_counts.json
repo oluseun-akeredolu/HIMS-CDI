@@ -1,0 +1,38 @@
+{
+  "s4_records": 43,
+  "s7_records": 43,
+  "identity_matches": {
+    "Primary DOI": 39,
+    "Unique title": 1,
+    "Unmatched": 3
+  },
+  "s7_unmatched": [
+    "1",
+    "2",
+    "5"
+  ],
+  "s7_variable_width": 16,
+  "s4_gdpr_or_hipaa_ids": [
+    "S03",
+    "S04",
+    "S06",
+    "S07",
+    "S11",
+    "S18",
+    "S25",
+    "S37"
+  ],
+  "s4_gdpr_hipaa_or_dspt_ids": [
+    "S03",
+    "S04",
+    "S06",
+    "S07",
+    "S11",
+    "S15",
+    "S18",
+    "S25",
+    "S29",
+    "S37"
+  ],
+  "interpretation": "Archived field labels and primary identity fields only. No eligibility or safeguard implementation inferred."
+}

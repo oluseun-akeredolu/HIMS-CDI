@@ -1,0 +1,38 @@
+Passed 37/37 checks
+PASS | all four PASS is eligible | 
+PASS | numeric G1 non-passing value is FAIL | 
+PASS | numeric G4 non-passing value is FAIL | 
+PASS | numeric subcontrol failure contributes FAIL | 
+PASS | FAIL dominates UNKNOWN in conjunction | 
+PASS | UNKNOWN used when unresolved and no FAIL | 
+PASS | G1 UNKNOWN blocks | 
+PASS | G2 UNKNOWN blocks | 
+PASS | G3 FAIL blocks | 
+PASS | G4 UNKNOWN blocks | 
+PASS | strict latency 199.99 passes threshold | 
+PASS | strict latency 200.00 fails threshold | 
+PASS | strict memory 99.99 passes threshold | 
+PASS | strict memory 100.00 fails threshold | 
+PASS | correlation matrix symmetric | 
+PASS | correlation matrix positive semidefinite | min eigenvalue=0.75000000
+PASS | 240 environments | 
+PASS | 7200 execution rows | 
+PASS | G1 scope status has PASS/FAIL/UNKNOWN only | 
+PASS | G1 PASS has complete scope record | 
+PASS | G1 FAIL has recorded scope conflict | 
+PASS | G1 UNKNOWN has at least one incomplete scope field | 
+PASS | G4 matches three-valued conjunction of REQ-A and REQ-B | 
+PASS | G2 matches three-valued conjunction of six controls | 
+PASS | evidence state table contains eight items per environment | 
+PASS | canonical G2/G4 item-state strings (catches UNKN truncation) | 
+PASS | decision item states match independent evidence rows | 
+PASS | injected UNKNOWN evidence survives serialization | 
+PASS | one-hot categorical input has exactly one active state per case | 
+PASS | numeric G2 control failures remain FAIL | 
+PASS | numeric G4 requirement failures remain FAIL | 
+PASS | 2400 out-of-fold prediction rows | 
+PASS | 10 repeats and four model summaries | 
+PASS | all eligible environments pass all four gates | 
+PASS | 20 T1 threshold combinations | 
+PASS | G1-G4 state counts each sum to 240 | 
+PASS | T2 injection never increases eligibility | Monotonicity is checked on this fixed base scenario and the deterministic additional-degradation procedure.

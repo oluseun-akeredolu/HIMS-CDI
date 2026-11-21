@@ -1,0 +1,488 @@
+{
+  "transport": "authenticated loopback HTTPS; limited TAXII 2.1 collection endpoints",
+  "fixture_times": "Declared scenario clock; distinct from actual receipt and HTTP log timestamps.",
+  "http_requests": [
+    {
+      "role": "sender",
+      "method": "POST",
+      "endpoint": "/demo/collections/94e5fa5d-a7d5-46ea-9f04-b64195ca1dd4/objects/",
+      "status": 202,
+      "response_sha256": "5a9d662f1f2c75684a148a294001992759d64a294926ff8d7ba24ec0f0299383",
+      "response": {
+        "id": "633bb99f-e4d4-42e5-b451-a2894c89e0eb",
+        "status": "complete",
+        "request_timestamp": "2026-11-20T08:07:25.533Z",
+        "total_count": 3,
+        "success_count": 3,
+        "failure_count": 0,
+        "pending_count": 0,
+        "successes": [
+          {
+            "id": "identity--fca39a73-4183-4c5b-a9a4-de5f80d595dd",
+            "version": "2026-11-16T09:00:00.000Z"
+          },
+          {
+            "id": "marking-definition--2f1c8c18-3db6-4867-887a-f1368aeda357"
+          },
+          {
+            "id": "indicator--7457d383-3375-48e6-92bc-e59ec198c98f",
+            "version": "2026-11-16T09:00:00.000Z"
+          }
+        ]
+      }
+    },
+    {
+      "role": "sender",
+      "method": "GET",
+      "endpoint": "/demo/status/633bb99f-e4d4-42e5-b451-a2894c89e0eb/",
+      "status": 200,
+      "response_sha256": "5a9d662f1f2c75684a148a294001992759d64a294926ff8d7ba24ec0f0299383",
+      "response": {
+        "id": "633bb99f-e4d4-42e5-b451-a2894c89e0eb",
+        "status": "complete",
+        "request_timestamp": "2026-11-20T08:07:25.533Z",
+        "total_count": 3,
+        "success_count": 3,
+        "failure_count": 0,
+        "pending_count": 0,
+        "successes": [
+          {
+            "id": "identity--fca39a73-4183-4c5b-a9a4-de5f80d595dd",
+            "version": "2026-11-16T09:00:00.000Z"
+          },
+          {
+            "id": "marking-definition--2f1c8c18-3db6-4867-887a-f1368aeda357"
+          },
+          {
+            "id": "indicator--7457d383-3375-48e6-92bc-e59ec198c98f",
+            "version": "2026-11-16T09:00:00.000Z"
+          }
+        ]
+      }
+    },
+    {
+      "role": "receiver",
+      "method": "GET",
+      "endpoint": "/demo/collections/94e5fa5d-a7d5-46ea-9f04-b64195ca1dd4/objects/",
+      "status": 200,
+      "response_sha256": "59fa76867ffe3216c278899bf25fc00ca3bef02557ac5869dd5d2d0f6f8d19a4",
+      "response": {
+        "objects": [
+          {
+            "type": "identity",
+            "spec_version": "2.1",
+            "id": "identity--fca39a73-4183-4c5b-a9a4-de5f80d595dd",
+            "created": "2026-11-16T09:00:00.000Z",
+            "modified": "2026-11-16T09:00:00.000Z",
+            "name": "Demonstration sharing organisation",
+            "identity_class": "organization"
+          },
+          {
+            "type": "marking-definition",
+            "spec_version": "2.1",
+            "id": "marking-definition--2f1c8c18-3db6-4867-887a-f1368aeda357",
+            "created": "2026-11-16T09:00:00.000Z",
+            "definition_type": "statement",
+            "definition": {
+              "statement": "Demonstration authorised recipients only."
+            }
+          },
+          {
+            "type": "indicator",
+            "spec_version": "2.1",
+            "id": "indicator--7457d383-3375-48e6-92bc-e59ec198c98f",
+            "created": "2026-11-16T09:00:00.000Z",
+            "modified": "2026-11-16T09:00:00.000Z",
+            "created_by_ref": "identity--fca39a73-4183-4c5b-a9a4-de5f80d595dd",
+            "object_marking_refs": [
+              "marking-definition--2f1c8c18-3db6-4867-887a-f1368aeda357"
+            ],
+            "name": "Synthetic patient-portal observation",
+            "pattern": "[domain-name:value = 'portal.invalid']",
+            "pattern_type": "stix",
+            "pattern_version": "2.1",
+            "valid_from": "2026-11-16T09:00:00.000Z",
+            "valid_until": "2026-11-17T15:00:00.000Z"
+          }
+        ],
+        "more": false
+      }
+    },
+    {
+      "role": "anonymous",
+      "method": "GET",
+      "endpoint": "/demo/collections/94e5fa5d-a7d5-46ea-9f04-b64195ca1dd4/objects/",
+      "status": 401,
+      "response_sha256": "2ab39137465de4f256e0a6a85566bdc695506e0d44d14ea78c077f106f6926b5",
+      "response": {
+        "title": "Authentication required"
+      }
+    },
+    {
+      "role": "unauthorised",
+      "method": "GET",
+      "endpoint": "/demo/collections/94e5fa5d-a7d5-46ea-9f04-b64195ca1dd4/objects/",
+      "status": 403,
+      "response_sha256": "bc929ccb72f824ab3d4cdd9678d92d0ebf9259c27e28d115950907a394571e31",
+      "response": {
+        "title": "Role does not permit this operation"
+      }
+    },
+    {
+      "role": "sender",
+      "method": "GET",
+      "endpoint": "/demo/collections/94e5fa5d-a7d5-46ea-9f04-b64195ca1dd4/objects/",
+      "status": 403,
+      "response_sha256": "bc929ccb72f824ab3d4cdd9678d92d0ebf9259c27e28d115950907a394571e31",
+      "response": {
+        "title": "Role does not permit this operation"
+      }
+    },
+    {
+      "role": "receiver",
+      "method": "POST",
+      "endpoint": "/demo/collections/94e5fa5d-a7d5-46ea-9f04-b64195ca1dd4/objects/",
+      "status": 403,
+      "response_sha256": "bc929ccb72f824ab3d4cdd9678d92d0ebf9259c27e28d115950907a394571e31",
+      "response": {
+        "title": "Role does not permit this operation"
+      }
+    },
+    {
+      "role": "sender",
+      "method": "POST",
+      "endpoint": "/demo/collections/94e5fa5d-a7d5-46ea-9f04-b64195ca1dd4/objects/",
+      "status": 202,
+      "response_sha256": "93594add5f0b0c3d490d049dfb8e504f51995ab4062befcc0906d9c5616efaa9",
+      "response": {
+        "id": "3547c456-531d-45aa-bfed-d61d4485841a",
+        "status": "complete",
+        "request_timestamp": "2026-11-20T08:07:25.553Z",
+        "total_count": 3,
+        "success_count": 3,
+        "failure_count": 0,
+        "pending_count": 0,
+        "successes": [
+          {
+            "id": "identity--fca39a73-4183-4c5b-a9a4-de5f80d595dd",
+            "version": "2026-11-16T09:00:00.000Z"
+          },
+          {
+            "id": "marking-definition--2f1c8c18-3db6-4867-887a-f1368aeda357"
+          },
+          {
+            "id": "indicator--7457d383-3375-48e6-92bc-e59ec198c98f",
+            "version": "2026-11-17T09:00:00.000Z"
+          }
+        ]
+      }
+    },
+    {
+      "role": "sender",
+      "method": "GET",
+      "endpoint": "/demo/status/3547c456-531d-45aa-bfed-d61d4485841a/",
+      "status": 200,
+      "response_sha256": "93594add5f0b0c3d490d049dfb8e504f51995ab4062befcc0906d9c5616efaa9",
+      "response": {
+        "id": "3547c456-531d-45aa-bfed-d61d4485841a",
+        "status": "complete",
+        "request_timestamp": "2026-11-20T08:07:25.553Z",
+        "total_count": 3,
+        "success_count": 3,
+        "failure_count": 0,
+        "pending_count": 0,
+        "successes": [
+          {
+            "id": "identity--fca39a73-4183-4c5b-a9a4-de5f80d595dd",
+            "version": "2026-11-16T09:00:00.000Z"
+          },
+          {
+            "id": "marking-definition--2f1c8c18-3db6-4867-887a-f1368aeda357"
+          },
+          {
+            "id": "indicator--7457d383-3375-48e6-92bc-e59ec198c98f",
+            "version": "2026-11-17T09:00:00.000Z"
+          }
+        ]
+      }
+    },
+    {
+      "role": "receiver",
+      "method": "GET",
+      "endpoint": "/demo/collections/94e5fa5d-a7d5-46ea-9f04-b64195ca1dd4/objects/",
+      "status": 200,
+      "response_sha256": "7b3c109f5efa6e2fc324255a53efe55c75eda060f2a1d213ffd63b531e3a775d",
+      "response": {
+        "objects": [
+          {
+            "type": "identity",
+            "spec_version": "2.1",
+            "id": "identity--fca39a73-4183-4c5b-a9a4-de5f80d595dd",
+            "created": "2026-11-16T09:00:00.000Z",
+            "modified": "2026-11-16T09:00:00.000Z",
+            "name": "Demonstration sharing organisation",
+            "identity_class": "organization"
+          },
+          {
+            "type": "marking-definition",
+            "spec_version": "2.1",
+            "id": "marking-definition--2f1c8c18-3db6-4867-887a-f1368aeda357",
+            "created": "2026-11-16T09:00:00.000Z",
+            "definition_type": "statement",
+            "definition": {
+              "statement": "Demonstration authorised recipients only."
+            }
+          },
+          {
+            "type": "indicator",
+            "spec_version": "2.1",
+            "id": "indicator--7457d383-3375-48e6-92bc-e59ec198c98f",
+            "created": "2026-11-16T09:00:00.000Z",
+            "modified": "2026-11-17T09:00:00.000Z",
+            "created_by_ref": "identity--fca39a73-4183-4c5b-a9a4-de5f80d595dd",
+            "object_marking_refs": [
+              "marking-definition--2f1c8c18-3db6-4867-887a-f1368aeda357"
+            ],
+            "name": "Synthetic patient-portal observation",
+            "pattern": "[domain-name:value = 'portal.invalid']",
+            "pattern_type": "stix",
+            "pattern_version": "2.1",
+            "valid_from": "2026-11-16T09:00:00.000Z",
+            "valid_until": "2026-11-17T15:00:00.000Z",
+            "revoked": true
+          }
+        ],
+        "more": false
+      }
+    }
+  ],
+  "server_log": [
+    {
+      "role": "sender",
+      "path": "/demo/collections/94e5fa5d-a7d5-46ea-9f04-b64195ca1dd4/objects/",
+      "method": "POST",
+      "status": 202,
+      "time_utc": "2026-11-20T08:07:25.534Z"
+    },
+    {
+      "role": "sender",
+      "path": "/demo/status/633bb99f-e4d4-42e5-b451-a2894c89e0eb/",
+      "method": "GET",
+      "status": 200,
+      "time_utc": "2026-11-20T08:07:25.536Z"
+    },
+    {
+      "role": "receiver",
+      "path": "/demo/collections/94e5fa5d-a7d5-46ea-9f04-b64195ca1dd4/objects/",
+      "method": "GET",
+      "status": 200,
+      "time_utc": "2026-11-20T08:07:25.539Z"
+    },
+    {
+      "role": "anonymous",
+      "path": "/demo/collections/94e5fa5d-a7d5-46ea-9f04-b64195ca1dd4/objects/",
+      "method": "GET",
+      "status": 401,
+      "time_utc": "2026-11-20T08:07:25.541Z"
+    },
+    {
+      "role": "unauthorised",
+      "path": "/demo/collections/94e5fa5d-a7d5-46ea-9f04-b64195ca1dd4/objects/",
+      "method": "GET",
+      "status": 403,
+      "time_utc": "2026-11-20T08:07:25.543Z"
+    },
+    {
+      "role": "sender",
+      "path": "/demo/collections/94e5fa5d-a7d5-46ea-9f04-b64195ca1dd4/objects/",
+      "method": "GET",
+      "status": 403,
+      "time_utc": "2026-11-20T08:07:25.545Z"
+    },
+    {
+      "role": "receiver",
+      "path": "/demo/collections/94e5fa5d-a7d5-46ea-9f04-b64195ca1dd4/objects/",
+      "method": "POST",
+      "status": 403,
+      "time_utc": "2026-11-20T08:07:25.550Z"
+    },
+    {
+      "role": "sender",
+      "path": "/demo/collections/94e5fa5d-a7d5-46ea-9f04-b64195ca1dd4/objects/",
+      "method": "POST",
+      "status": 202,
+      "time_utc": "2026-11-20T08:07:25.553Z"
+    },
+    {
+      "role": "sender",
+      "path": "/demo/status/3547c456-531d-45aa-bfed-d61d4485841a/",
+      "method": "GET",
+      "status": 200,
+      "time_utc": "2026-11-20T08:07:25.555Z"
+    },
+    {
+      "role": "receiver",
+      "path": "/demo/collections/94e5fa5d-a7d5-46ea-9f04-b64195ca1dd4/objects/",
+      "method": "GET",
+      "status": 200,
+      "time_utc": "2026-11-20T08:07:25.557Z"
+    }
+  ],
+  "gate_cases": [
+    {
+      "case": "current, local evidence absent",
+      "collection": "94e5fa5d-a7d5-46ea-9f04-b64195ca1dd4",
+      "sender": "sender",
+      "receiver": "receiver",
+      "ruleset": "CTI-OFFLINE-DEMO-1",
+      "provider": "demo-sector-sharing-org",
+      "recipient": "demo-hospital-security",
+      "received_at_utc": "2026-11-20T08:07:25.533Z",
+      "assessment_at_utc": "2026-11-17T12:00:00.000Z",
+      "input_sha256": "b2c2fdd43fe56387eb4d795810c58cc625cab5e805a05d1736dd9d3e44572b65",
+      "receipt_sha256": "b2c2fdd43fe56387eb4d795810c58cc625cab5e805a05d1736dd9d3e44572b65",
+      "source_object_id": "indicator--7457d383-3375-48e6-92bc-e59ec198c98f",
+      "created_by_ref": "identity--fca39a73-4183-4c5b-a9a4-de5f80d595dd",
+      "source_modified": "2026-11-16T09:00:00.000Z",
+      "valid_from_utc": "2026-11-16T09:00:00.000Z",
+      "valid_until_utc": "2026-11-17T15:00:00.000Z",
+      "markings": [
+        "marking-definition--2f1c8c18-3db6-4867-887a-f1368aeda357"
+      ],
+      "local_asset": "DEMO-HOSPITAL-PATIENT-PORTAL",
+      "cti_status": "request_local_control_evidence",
+      "local_evidence_state": "UNKNOWN",
+      "local_evidence_ref": null,
+      "requested_control_evidence": true,
+      "G1": "PASS",
+      "G2": "UNKNOWN",
+      "G3": "PASS",
+      "G4": "PASS",
+      "disposition": "UNRESOLVED"
+    },
+    {
+      "case": "current, local control satisfied",
+      "collection": "94e5fa5d-a7d5-46ea-9f04-b64195ca1dd4",
+      "sender": "sender",
+      "receiver": "receiver",
+      "ruleset": "CTI-OFFLINE-DEMO-1",
+      "provider": "demo-sector-sharing-org",
+      "recipient": "demo-hospital-security",
+      "received_at_utc": "2026-11-20T08:07:25.533Z",
+      "assessment_at_utc": "2026-11-17T12:00:00.000Z",
+      "input_sha256": "b2c2fdd43fe56387eb4d795810c58cc625cab5e805a05d1736dd9d3e44572b65",
+      "receipt_sha256": "b2c2fdd43fe56387eb4d795810c58cc625cab5e805a05d1736dd9d3e44572b65",
+      "source_object_id": "indicator--7457d383-3375-48e6-92bc-e59ec198c98f",
+      "created_by_ref": "identity--fca39a73-4183-4c5b-a9a4-de5f80d595dd",
+      "source_modified": "2026-11-16T09:00:00.000Z",
+      "valid_from_utc": "2026-11-16T09:00:00.000Z",
+      "valid_until_utc": "2026-11-17T15:00:00.000Z",
+      "markings": [
+        "marking-definition--2f1c8c18-3db6-4867-887a-f1368aeda357"
+      ],
+      "local_asset": "DEMO-HOSPITAL-PATIENT-PORTAL",
+      "cti_status": "request_local_control_evidence",
+      "local_evidence_state": "PASS",
+      "local_evidence_ref": "FIXTURE-LOCAL-VERIFIED",
+      "requested_control_evidence": true,
+      "G1": "PASS",
+      "G2": "PASS",
+      "G3": "PASS",
+      "G4": "PASS",
+      "disposition": "ELIGIBLE"
+    },
+    {
+      "case": "current, verified local failure",
+      "collection": "94e5fa5d-a7d5-46ea-9f04-b64195ca1dd4",
+      "sender": "sender",
+      "receiver": "receiver",
+      "ruleset": "CTI-OFFLINE-DEMO-1",
+      "provider": "demo-sector-sharing-org",
+      "recipient": "demo-hospital-security",
+      "received_at_utc": "2026-11-20T08:07:25.533Z",
+      "assessment_at_utc": "2026-11-17T12:00:00.000Z",
+      "input_sha256": "b2c2fdd43fe56387eb4d795810c58cc625cab5e805a05d1736dd9d3e44572b65",
+      "receipt_sha256": "b2c2fdd43fe56387eb4d795810c58cc625cab5e805a05d1736dd9d3e44572b65",
+      "source_object_id": "indicator--7457d383-3375-48e6-92bc-e59ec198c98f",
+      "created_by_ref": "identity--fca39a73-4183-4c5b-a9a4-de5f80d595dd",
+      "source_modified": "2026-11-16T09:00:00.000Z",
+      "valid_from_utc": "2026-11-16T09:00:00.000Z",
+      "valid_until_utc": "2026-11-17T15:00:00.000Z",
+      "markings": [
+        "marking-definition--2f1c8c18-3db6-4867-887a-f1368aeda357"
+      ],
+      "local_asset": "DEMO-HOSPITAL-PATIENT-PORTAL",
+      "cti_status": "request_local_control_evidence",
+      "local_evidence_state": "FAIL",
+      "local_evidence_ref": "FIXTURE-LOCAL-BREACH",
+      "requested_control_evidence": true,
+      "G1": "PASS",
+      "G2": "FAIL",
+      "G3": "PASS",
+      "G4": "PASS",
+      "disposition": "INELIGIBLE"
+    },
+    {
+      "case": "expiry boundary",
+      "collection": "94e5fa5d-a7d5-46ea-9f04-b64195ca1dd4",
+      "sender": "sender",
+      "receiver": "receiver",
+      "ruleset": "CTI-OFFLINE-DEMO-1",
+      "provider": "demo-sector-sharing-org",
+      "recipient": "demo-hospital-security",
+      "received_at_utc": "2026-11-20T08:07:25.533Z",
+      "assessment_at_utc": "2026-11-17T15:00:00.000Z",
+      "input_sha256": "b2c2fdd43fe56387eb4d795810c58cc625cab5e805a05d1736dd9d3e44572b65",
+      "receipt_sha256": "b2c2fdd43fe56387eb4d795810c58cc625cab5e805a05d1736dd9d3e44572b65",
+      "source_object_id": "indicator--7457d383-3375-48e6-92bc-e59ec198c98f",
+      "created_by_ref": "identity--fca39a73-4183-4c5b-a9a4-de5f80d595dd",
+      "source_modified": "2026-11-16T09:00:00.000Z",
+      "valid_from_utc": "2026-11-16T09:00:00.000Z",
+      "valid_until_utc": "2026-11-17T15:00:00.000Z",
+      "markings": [
+        "marking-definition--2f1c8c18-3db6-4867-887a-f1368aeda357"
+      ],
+      "local_asset": null,
+      "cti_status": "outside_validity_window",
+      "local_evidence_state": "UNKNOWN",
+      "local_evidence_ref": null,
+      "requested_control_evidence": false,
+      "G1": "PASS",
+      "G2": "UNKNOWN",
+      "G3": "PASS",
+      "G4": "PASS",
+      "disposition": "UNRESOLVED"
+    },
+    {
+      "case": "revoked object version",
+      "collection": "94e5fa5d-a7d5-46ea-9f04-b64195ca1dd4",
+      "sender": "sender",
+      "receiver": "receiver",
+      "ruleset": "CTI-OFFLINE-DEMO-1",
+      "provider": "demo-sector-sharing-org",
+      "recipient": "demo-hospital-security",
+      "received_at_utc": "2026-11-20T08:07:25.553Z",
+      "assessment_at_utc": "2026-11-17T12:00:00.000Z",
+      "input_sha256": "3af50e905e01653077e0f6140dfb3b892f12866b6cee6b948b192fd4d21ea717",
+      "receipt_sha256": "3af50e905e01653077e0f6140dfb3b892f12866b6cee6b948b192fd4d21ea717",
+      "source_object_id": "indicator--7457d383-3375-48e6-92bc-e59ec198c98f",
+      "created_by_ref": "identity--fca39a73-4183-4c5b-a9a4-de5f80d595dd",
+      "source_modified": "2026-11-17T09:00:00.000Z",
+      "valid_from_utc": "2026-11-16T09:00:00.000Z",
+      "valid_until_utc": "2026-11-17T15:00:00.000Z",
+      "markings": [
+        "marking-definition--2f1c8c18-3db6-4867-887a-f1368aeda357"
+      ],
+      "local_asset": null,
+      "cti_status": "revoked",
+      "local_evidence_state": "UNKNOWN",
+      "local_evidence_ref": null,
+      "requested_control_evidence": false,
+      "G1": "PASS",
+      "G2": "UNKNOWN",
+      "G3": "PASS",
+      "G4": "PASS",
+      "disposition": "UNRESOLVED"
+    }
+  ]
+}

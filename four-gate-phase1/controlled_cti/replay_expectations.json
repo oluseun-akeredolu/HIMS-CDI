@@ -1,0 +1,79 @@
+[
+  [
+    "current + local confirmation",
+    "baseline",
+    "PASS",
+    "PASS",
+    "ELIGIBLE"
+  ],
+  [
+    "current + no local evidence",
+    "baseline",
+    "UNKNOWN",
+    "UNKNOWN",
+    "UNRESOLVED"
+  ],
+  [
+    "expiry boundary + no evidence",
+    "expired",
+    "UNKNOWN",
+    "UNKNOWN",
+    "UNRESOLVED"
+  ],
+  [
+    "revoked + no local evidence",
+    "revoked",
+    "UNKNOWN",
+    "UNKNOWN",
+    "UNRESOLVED"
+  ],
+  [
+    "recipient denied",
+    "denied",
+    "UNKNOWN",
+    "UNKNOWN",
+    "UNRESOLVED"
+  ],
+  [
+    "creator provenance absent",
+    "missing_creator",
+    "UNKNOWN",
+    "UNKNOWN",
+    "UNRESOLVED"
+  ],
+  [
+    "receipt hash mismatch",
+    "tampered",
+    "UNKNOWN",
+    "UNKNOWN",
+    "UNRESOLVED"
+  ],
+  [
+    "asset link unverified",
+    "unmapped",
+    "UNKNOWN",
+    "UNKNOWN",
+    "UNRESOLVED"
+  ],
+  [
+    "unparseable payload",
+    "bad_json",
+    "UNKNOWN",
+    "UNKNOWN",
+    "UNRESOLVED"
+  ],
+  [
+    "current + verified local breach",
+    "baseline",
+    "FAIL",
+    "FAIL",
+    "INELIGIBLE"
+  ],
+  [
+    "expired + verified local confirmation",
+    "expired",
+    "PASS",
+    "PASS",
+    "ELIGIBLE"
+  ]
+]

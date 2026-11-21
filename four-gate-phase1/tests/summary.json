@@ -1,0 +1,41 @@
+{
+  "manifest_checks": 21,
+  "byte_identical_per_rerun": 14,
+  "finite_gate_vectors": 81,
+  "nested_item_vectors": 59049,
+  "environments": 240,
+  "executions": 7200,
+  "item_evidence_rows": 1920,
+  "outcomes": {
+    "INELIGIBLE": 177,
+    "UNRESOLVED": 48,
+    "ELIGIBLE": 15
+  },
+  "joint_vectors": 36,
+  "disposition_shape": {
+    "INELIGIBLE": {
+      "1 FAIL, 0 UNKNOWN": 50,
+      "1 FAIL, 1 UNKNOWN": 48,
+      "1 FAIL, 2 UNKNOWN": 10,
+      "1 FAIL, 3 UNKNOWN": 1,
+      "2 FAIL, 0 UNKNOWN": 31,
+      "2 FAIL, 1 UNKNOWN": 23,
+      "2 FAIL, 2 UNKNOWN": 2,
+      "3 FAIL, 0 UNKNOWN": 10,
+      "3 FAIL, 1 UNKNOWN": 1,
+      "4 FAIL, 0 UNKNOWN": 1
+    },
+    "UNRESOLVED": {
+      "0 FAIL, 1 UNKNOWN": 39,
+      "0 FAIL, 2 UNKNOWN": 9
+    },
+    "ELIGIBLE": {
+      "0 FAIL, 0 UNKNOWN": 15
+    }
+  },
+  "metric_checks_per_archived_run": 400,
+  "g3_old": 5,
+  "g3_candidate": 17,
+  "g3_corpus_behavior_unchanged": true,
+  "g3_candidate_status": "Local unpublished candidate; no third-party review or clinical measurements"
+}

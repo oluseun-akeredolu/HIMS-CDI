@@ -1,0 +1,18 @@
+case,latency,memory,required,old_result,old_pass,new_result,new_pass
+valid pass,199.99,99.99,PASS,PASS,True,PASS,True
+latency boundary,200,90,FAIL,FAIL,True,FAIL,True
+memory boundary,150,100,FAIL,FAIL,True,FAIL,True
+both exceed,210,110,FAIL,FAIL,True,FAIL,True
+valid under limits,0,0,PASS,PASS,True,PASS,True
+missing latency,,80,UNKNOWN,TypeError,False,UNKNOWN,True
+missing memory,150,,UNKNOWN,TypeError,False,UNKNOWN,True
+nan latency,,80,UNKNOWN,FAIL,False,UNKNOWN,True
+nan memory,150,,UNKNOWN,FAIL,False,UNKNOWN,True
+infinite latency,inf,80,UNKNOWN,FAIL,False,UNKNOWN,True
+negative infinite memory,150,-inf,UNKNOWN,PASS,False,UNKNOWN,True
+negative latency,-1,80,UNKNOWN,PASS,False,UNKNOWN,True
+negative memory,150,-1,UNKNOWN,PASS,False,UNKNOWN,True
+string value,90,80,UNKNOWN,UFuncTypeError,False,UNKNOWN,True
+boolean value,150,True,UNKNOWN,PASS,False,UNKNOWN,True
+missing with verified memory breach,,110,FAIL,TypeError,False,FAIL,True
+verified latency breach with missing memory,210,,FAIL,TypeError,False,FAIL,True
